@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.signup-overlay {
+    background: rgba(252, 251, 251, 0.2); /* Adjust opacity as needed */
+}
+
+.datepicker-input {
+    width: 133px; /* Adjust width as needed */
+}
+
+.admin-overlay {
+    background: rgba(252, 251, 251, 0.2);
+}
+
+.timeschedule-overlay {
+    background: hsla(261, 73%, 85%, 0.8);
+}
+
+.doctor-schedule-time-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    z-index: 1000;
+  }
+
+  .deleteConfirm-overlay {
+    background: hsla(120, 2%, 32%, 0.8);
+  }
+
+  .slots-overlay {
+    position: absolute;
+    background: rgba(253, 252, 252, 0.9);
+    z-index: 999;
+  }
+
+  .userprofile-overlay {
+    background: rgba(163, 161, 161, 0.4);
+  }
+
+  
+
+  
