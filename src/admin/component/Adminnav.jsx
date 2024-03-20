@@ -15,18 +15,14 @@ const Adminnav = () => {
     const [loggedIn, setLoggedIn] = useState('')
     const [showDropdown, setShowDropdown] = useState(false)
 
-    console.log(loggedIn,'jjjjjjjjjjjjjjjjjjjjjtttttttt');
-
     const accessToken = localStorage.getItem('adminToken')
 
     useEffect(() => {
         if(accessToken) {
           try {
           const decode = jwtDecode(accessToken)
-          console.log(decode,'decode admin token');
           setLoggedIn(decode?.adminName || '')
           } catch(err) {
-            console.log(err,'jkooooooooooooooo');
             localStorage.removeItem('adminToken');
           }
         } else {
@@ -48,7 +44,6 @@ const Adminnav = () => {
             <div
                 className="hidden w-full md:block md:w-auto"
                 id="navbar-multi-level"
-            //  onMouseEnter={handleMouseEnter}
             >
                 <ul
                     className="flex flex-col font-medium p-4 md:p-0 mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-0 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
@@ -128,7 +123,7 @@ const Adminnav = () => {
                             </Link> 
                       ) : ( 
                         <Link
-                            to={"/login"}
+                            to={"/admin/adminlogin"}
                             className="text-white p-6 flex items-center gap-2 text-lg"
                         >
                             Login

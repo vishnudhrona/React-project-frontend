@@ -12,8 +12,6 @@ const Paymentinfo = () => {
     const doctorId = searchParams.get('doctorId')
     const dateId = searchParams.get('dateId')
 
-    console.log(dateId, 'fuckersssssss');
-
     const accessToken = localStorage.getItem('token')
     const decode =  jwtDecode(accessToken)
     const userId = decode.userId
@@ -25,18 +23,12 @@ const Paymentinfo = () => {
     const [fee] = useState(100)
     const [bookings, setBookings] = useState('')
 
-    console.log(timeSchedule, 'nnnnnnnnnuuuuuuuunnnnnnuuuuuuu');
-
     let doctorFee = parseInt(doctor.fee)
 
     const totalAmount = doctorFee + fee
-    console.log(totalAmount, 'jjjjjjjjjjj');
-
-    console.log(userId, 'bbbbbbbbb');
 
     useEffect(() => {
         instance.get(`/fetchpaymentdetails?docId=${doctorId}&userId=${userId}&dateId=${dateId}`).then((response) => {
-            console.log(response, 'got booked date');
             setDoctor(response.data.response.doctorProfile)
             setUser(response.data.response.user)
             setTimeSchedule(response.data.response.bookedSlot)
@@ -47,14 +39,12 @@ const Paymentinfo = () => {
     const payment = () => {
         instance.post('/userpayment', { totalAmount, user, doctor, date, timeSchedule }).then((response) => {
             setBookings(response.data.order)
-            console.log(response.data.order.id, 'vvvvvvvvcccccccccrrrrrrr');
         })
     }
     
     useEffect(() => {
         if (bookings) {
             try {
-                console.log(bookings, 'haossssssssssss');
                 var options = {
                     "key": "rzp_test_gFSzKrbiJVMqDa", // Enter the Key ID generated from the Dashboard
                     "amount": bookings.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -65,7 +55,6 @@ const Paymentinfo = () => {
                     "order_id": bookings.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                     "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
                     "handler": function (response) {
-                        console.log(response, 'razzzzzzzzzzzzzzzzz');
                         paymentVerification(response, bookings, timeSchedule)
                     },
                     "prefill": {
@@ -80,7 +69,6 @@ const Paymentinfo = () => {
                         "color": "#3399cc"
                     }
                 };
-                console.log(bookings, 'eeeeennnnddddddddd');
                 var rzp1 = new window.Razorpay(options);
                 rzp1.open();
             } catch (err) {
@@ -95,7 +83,6 @@ const Paymentinfo = () => {
         instance.post('/verifypayment', { res, order, bookingId }).then((response) => {
 
             if (response.data.response.status) {
-                console.log('this is workinggggg');
                 navigate('/paymentsuccess')
             } else {
                 toast.error('Payment verification failed');

@@ -1,48 +1,61 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import instance from "../../Axios/Axios";
 import { useSelector } from "react-redux";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 
 const Doctordetails = () => {
-    const [doctorProfile, setDocProfile] = useState([]);
-    const [image, setImage] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [filteredDoctorProfile, setFilteredDoctorProfile] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [image, setImg] = useState()
+    const [doctorProfile, setDoctorProfile] = useState([])
     const [doctorsPerPage] = useState(5);
+
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search)
+    const bannerSearch = searchParams.get('bannersearch') 
   
     const sortDoc = useSelector((state) => state.patientData.sortedDoc.doctorDetails);
     const sortImg = useSelector((state) => state.patientData.sortedDoc.image);
 
-    const indexOfLastDoctor = currentPage * doctorsPerPage;
-    const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
-    const profile = doctorProfile.slice(indexOfFirstDoctor, indexOfLastDoctor);
+    useEffect(() => {
+        if(sortDoc && sortImg) {
+            setDoctorProfile(sortDoc)
+            setImg(sortImg)
+        }
+    }, [sortDoc, sortImg, doctorProfile, image])
+
+        const indexOfLastDoctor = currentPage * doctorsPerPage;
+        const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
+        const profile = doctorProfile.slice(indexOfFirstDoctor, indexOfLastDoctor)
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
-    useEffect(() => {
-      instance.post("/doctorbooking").then((docProfile) => {
-        if (!sortDoc) {
-          setDocProfile(docProfile.data.docProfile.doctorDetails);
-          setFilteredDoctorProfile(docProfile.data.docProfile.doctorDetails);
-          setImage(docProfile.data.docProfile.image);
-        } else {
-          setDocProfile(sortDoc);
-          setImage(sortImg);
-        }
-      });
-    }, [sortDoc, sortImg]);
 
     useEffect(() => {
         instance.post('/deletependingslots').then((response) => {
             console.log(response);
         })
     }, [])
+
+    useEffect(() => {
+        if(bannerSearch) {
+            searchBanner()
+        }
+    }, [bannerSearch, doctorProfile])
+
+    const searchBanner = () => {
+        const query = bannerSearch.toLowerCase()
+        const searchProfile = doctorProfile.filter((doc) => {
+            const name = `${doc.firstname} ${doc.lastname}`.toLowerCase()
+            return name.includes(query)
+        })
+        setFilteredDoctorProfile(searchProfile)
+    }
   
     const searchDoctors = () => {
       const query = searchInput.toLowerCase();
-      const filteredProfiles = doctorProfile.filter((doc) => {
+      const filteredProfiles = sortDoc.filter((doc) => {
         const fullName = `${doc.firstname} ${doc.lastname}`.toLowerCase();
         return fullName.includes(query);
       });
@@ -111,7 +124,7 @@ const Doctordetails = () => {
 
                 <div className="grid grid-rows">
                     <div className="max-w-sm w-full lg:max-w-full  p-5">
-                        {filteredDoctorProfile.length > 0 && searchInput ? (
+                        {filteredDoctorProfile.length > 0 && searchInput || bannerSearch ? (
 
 
 
@@ -159,13 +172,13 @@ const Doctordetails = () => {
                                                     </p>
                                                     <div className="flex">
                                                         <Link
-                                                            to={'/timeslot'}
+                                                            to={`/timeslot/${doc.doctorId}`}
                                                             className="text-customColor hover:text-white border border-customColor hover:bg-customColor focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-customColor dark:text-customColor dark:hover:text-white dark:hover:bg-customColor dark:focus:ring-customColor"
                                                         >
                                                             Video Consultation
                                                         </Link>
                                                         <Link
-                                                            // to={`/timeslot/${doc.doctorId}`}
+                                                            to={`/timeslot/${doc.doctorId}`}
                                                             className="text-customColor hover:text-white border border-customColor hover:bg-customColor focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-customColor dark:text-customColor dark:hover:text-white dark:hover:bg-customColor dark:focus:ring-customColor"
                                                         >
                                                             Book An Appointment
@@ -248,7 +261,6 @@ const Doctordetails = () => {
                     </div>
                 </div>
             <div className="flex justify-center mt-4 py-5">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -257,7 +269,6 @@ const Doctordetails = () => {
                    <TbPlayerTrackPrevFilled />
                 </button>
                 
-                {/* Page numbers */}
                 {Array.from({ length: Math.ceil(doctorProfile.length / doctorsPerPage) }).map((_, index) => (
                     <button
                         key={index}
@@ -270,7 +281,6 @@ const Doctordetails = () => {
                     </button>
                 ))}
                 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(doctorProfile.length / doctorsPerPage)}

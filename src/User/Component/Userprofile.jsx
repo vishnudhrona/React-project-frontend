@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/Axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb'
-import './userprofile.css'
 import Cancelbookingconfirm from './Cancelbookingconfirm';
 import { bookingId } from '../../Redux/Reducers/patientSlice'
 import { closingBooking } from '../../Redux/Reducers/patientSlice'
@@ -15,11 +14,12 @@ const Userprofile = () => {
     const [doctorsPerPage] = useState(2);
     const [isTransitionEnabled, setIsTransitionEnabled] = useState(false);
     const [showCancelBookingConfirm, setShowCancelBookingConfirm] = useState(false)
+    const [lastAppointment, setLastAppointment] = useState({})
 
     const dispatch = useDispatch()
 
     const patientId = useSelector((state) => state.patientData.patientId)
-    const bookingConfirm = useSelector((state) => state.patientData.closingBooking) 
+    const bookingConfirm = useSelector((state) => state.patientData.closingBooking)
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -39,6 +39,12 @@ const Userprofile = () => {
             setBookingDetails(response.data.response.bookingDetails)
         })
     }, [bookingConfirm])
+
+    useEffect(() => {
+        instance.get(`/fetchlastappointment?patientId=${patientId}`).then((response) => {
+            setLastAppointment(response.data.bookings)
+        })
+    }, [])
 
     const deleteBooking = (slotId) => {
         setShowCancelBookingConfirm(true)
@@ -86,11 +92,15 @@ const Userprofile = () => {
                         <h1 className='font-bold mb-4'>Latest Appointment</h1>
                         <div className='bg-red-400 px-5 py-5 rounded-xl'>
                             <ul className="list-none text-white text-xs">
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span> Psychology</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>Somashekharan</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Date:</span> 30/05/1995</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Time:</span> 2:30 pm</li>
+                                {lastAppointment && (
+                                    <>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span>{lastAppointment.department}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>{lastAppointment.doctorfirstname} {lastAppointment.doctorlastname}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Date:</span>{lastAppointment.bookingDate}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Time:</span>{lastAppointment.slotTime}</li>
+                                    </>
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -100,11 +110,10 @@ const Userprofile = () => {
                     <h1 className='font-bold'>Your Appointments</h1>
                     {bookingDetails && patientBookinDetails.map((booking, index) => (
                         <div
-                                key={index}
-                                className={`bg-blue-500 px-5 py-5 rounded-xl flex flex-col items-center ${
-                                    isTransitionEnabled ? 'animate-slideIn' : '' // Apply transition effect class conditionally
+                            key={index}
+                            className={`bg-blue-500 px-5 py-5 rounded-xl flex flex-col items-center ${isTransitionEnabled ? 'animate-slideIn' : '' // Apply transition effect class conditionally
                                 }`}
-                            >                            <ul className="list-none text-white text-xs">
+                        >   <ul className="list-none text-white text-xs">
                                 <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span> {booking.department}</li>
                                 <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>{booking.doctorfirstname} {booking.doctorlastname}</li>
                                 <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
@@ -120,24 +129,22 @@ const Userprofile = () => {
                         </div>
                     ))}
                     <div className="flex justify-center mt-4">
-                {/* Previous page button */}
-                <button
-                    onClick={() => paginate(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="mr-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
-                >
-                   <TbPlayerTrackPrevFilled />
-                </button>
-                
-                {/* Next page button */}
-                <button
-                    onClick={() => paginate(currentPage + 1)}
-                    disabled={currentPage === Math.ceil(bookingDetails.length / doctorsPerPage)}
-                    className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
-                >
-                    <TbPlayerTrackNextFilled />
-                </button>
-            </div>
+                        <button
+                            onClick={() => paginate(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="mr-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+                        >
+                            <TbPlayerTrackPrevFilled />
+                        </button>
+
+                        <button
+                            onClick={() => paginate(currentPage + 1)}
+                            disabled={currentPage === Math.ceil(bookingDetails.length / doctorsPerPage)}
+                            className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+                        >
+                            <TbPlayerTrackNextFilled />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

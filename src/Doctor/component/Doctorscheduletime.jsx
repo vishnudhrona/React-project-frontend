@@ -91,7 +91,6 @@ const Doctorscheduletime = () => {
                     'Content-Type' : 'application/json'
                   },
             }).then((response) => {
-                console.log(response.data.response.status,'status');
                 dispatch(scheduleClose(false))
             })
 
@@ -117,7 +116,7 @@ const Doctorscheduletime = () => {
                                 onChange={handleDate}
                                 value={date}
                                 minDate={new Date()}
-                                dateFormat="dd/MM/yyyy" // Customize the date format
+                                dateFormat="dd/MM/yyyy"
                             />
                             <CgCalendarDates className="absolute top-1/2 left-40 mt-5 text-blue-600 transform -translate-y-8 w-6 h-6 dark:text-gray-400" />
                         </div>

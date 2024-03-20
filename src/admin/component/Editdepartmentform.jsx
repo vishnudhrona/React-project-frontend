@@ -60,9 +60,6 @@ const Editdepartmentform = () => {
                             onChange={handleChange}
                         />
                     </div>
-                    {/* {formErrors.department && (
-                        <span className="text-red-500 text-xs">{formErrors.department}</span>
-                    )} */}
                 </div>
             </div>
             <div className="pt-5 flex justify-center item-center gap-4">

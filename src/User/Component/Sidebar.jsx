@@ -20,17 +20,17 @@ const Sidebar = () => {
     }, [])
 
     useEffect(() => {
-        instance.post('/sortdoctor',{selectedOption}).then((sortedDoc) => {
+        instance.get(`/sortdoctor?search=${selectedOption}`).then((sortedDoc) => {
           dispatch(setSortedDoc(sortedDoc.data.sortedDoc))
         })
-      },[selectedOption,dispatch])
+      },[selectedOption])
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value)
     }
 
     const unselectOption = () => {
-        setSelectedOption([]); // Set selectedOption to an empty string
+        setSelectedOption([]); 
     };
 
   return (

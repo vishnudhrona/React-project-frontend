@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/Axios'
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
 
 
 const Doctortable = () => {
@@ -11,6 +12,15 @@ const Doctortable = () => {
   const [approvalStatus, setApprovalStatus] = useState({})
   const [searchInput, setSearchInput] = useState("");
   const [filteredDoctorProfile, setFilteredDoctorProfile] = useState([]);
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    let accessToken = localStorage.getItem('adminToken')
+    if(!accessToken) {
+      navigate('/admin/adminlogin')
+    }
+  })
 
 
   useEffect(() => {
@@ -27,7 +37,6 @@ const Doctortable = () => {
 
   const approve = (doctorId) => {
     instance.get(`/admin/doctorapproval?doctorId=${doctorId}`).then((status) => {
-      console.log(status.data.status, 'i got approval status');
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
@@ -37,7 +46,6 @@ const Doctortable = () => {
 
   const Inerdict = (doctorId) => {
     instance.get(`/admin/doctorinterdict?doctorId=${doctorId}`).then((status) => {
-      console.log(status, 'i got interdict response')
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
@@ -46,7 +54,6 @@ const Doctortable = () => {
   }
 
   const searchDoctors = () => {
-    console.log(searchInput,'i got seraaaaaa');
     const query = searchInput.toLowerCase();
     const filteredProfiles = doctors.filter((doc) => {
       const fullName = `${doc.firstname} ${doc.lastname}`.toLowerCase();
@@ -248,7 +255,6 @@ const Doctortable = () => {
       </div>
 
       <div className="flex justify-center mt-4">
-        {/* Previous page button */}
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
@@ -257,7 +263,6 @@ const Doctortable = () => {
           <TbPlayerTrackPrevFilled />
         </button>
 
-        {/* Page numbers */}
         {Array.from({ length: Math.ceil(doctors.length / doctorsPerPage) }).map((_, index) => (
           <button
             key={index}
@@ -269,7 +274,6 @@ const Doctortable = () => {
           </button>
         ))}
 
-        {/* Next page button */}
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === Math.ceil(doctors.length / doctorsPerPage)}

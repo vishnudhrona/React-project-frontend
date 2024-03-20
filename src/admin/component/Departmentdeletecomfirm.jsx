@@ -8,7 +8,6 @@ const Departmentdeletecomfirm = () => {
     const dispatch = useDispatch()
 
     const departmentId = useSelector((state) => state.adminData.departmentId)
-    console.log(departmentId,'uuuuuuuuuuuuuuuuuu');
 
     const cancelDelete = () => {
         dispatch(departmentConfirmDelete(false))
@@ -29,7 +28,6 @@ const Departmentdeletecomfirm = () => {
     <>
     <div className='fixed inset-0 flex items-center justify-center'>
     <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-      {/* Modal content */}
       <div className="relative p-4 text-center deleteConfirm-overlay rounded-lg shadow dark:bg-red-800 sm:p-5">
         <svg
           className="text-red-600 dark:text-red-500 w-11 h-11 mb-3.5 mx-auto"
@@ -67,7 +65,6 @@ const Departmentdeletecomfirm = () => {
       </div>
     </div>
     </div>
-
 </>
   )
 }

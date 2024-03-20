@@ -3,17 +3,29 @@ import { IoLogoInstagram } from "react-icons/io5";
 import { CiFacebook } from "react-icons/ci";
 import { IoLogoYoutube } from "react-icons/io";
 import { FaGooglePlusSquare } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 
 const Banner = () => {
+  const [searchInput, setSearchInput] = useState("");
+
+  const navigate = useNavigate()
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/bookappointment?bannersearch=${searchInput}`)
+  };
+
+  const searchDoc = (e) => {
+    setSearchInput(e.target.value);
+};
   return (
     <>
-    <div className="container-fluid mx-auto">
+    <div className="container-fluid mx-auto relative">
     <div id="default-carousel" className="relative w-full z-20" data-carousel="slide">
       <div className="relative">
-{/* Carousel wrapper */}
 <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-  {/* Item 1 */}
   <div className="hidden duration-700 ease-in-out" data-carousel-item="">
     <img
       src="https://www.asterhospitals.in/sites/default/files/styles/banner_xxl/public/2023-09/Web%20banner_1920x810%20Web%20banner%20copy.jpg.webp?itok=qwfBJ-uV"
@@ -21,7 +33,6 @@ const Banner = () => {
       alt="..."
     />
   </div>
-  {/* Item 2 */}
   <div className="hidden duration-700 ease-in-out" data-carousel-item="">
     <img
       src="https://www.asterhospitals.in/sites/default/files/styles/banner_xxl/public/2023-09/BHB%20Banner.jpg.webp?itok=X8L9u7lH"
@@ -29,7 +40,6 @@ const Banner = () => {
       alt="..."
     />
   </div>
-  {/* Item 3 */}
   <div className="hidden duration-700 ease-in-out" data-carousel-item="">
     <img
       src="https://www.asterhospitals.in/sites/default/files/styles/banner_xxl/public/2023-09/ET%20award%20Banner%20web.jpg.webp?itok=mYm8DhMI"
@@ -37,7 +47,6 @@ const Banner = () => {
       alt="..."
     />
   </div>
-  {/* Item 4 */}
   <div className="hidden duration-700 ease-in-out" data-carousel-item="">
     <img
       src="https://www.asterhospitals.in/sites/default/files/styles/banner_xxl/public/2023-02/we-will-treat-you-well.webp?itok=i-R-ZzZv"
@@ -45,7 +54,6 @@ const Banner = () => {
       alt="..."
     />
   </div>
-  {/* Item 5 */}
   <div className=" duration-700 ease-in-out" data-carousel-item="">
     <img
       src="https://www.asterhospitals.in/sites/default/files/styles/banner_xxl/public/2023-09/Banner%201%20%281%29.jpg.webp?itok=v5yy_gAP"
@@ -55,7 +63,6 @@ const Banner = () => {
   </div>
 </div>
  </div>
-{/* Slider indicators */}
 <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
   <button
     type="button"
@@ -93,7 +100,6 @@ const Banner = () => {
     data-carousel-slide-to={4}
   />
 </div>
-{/* Slider controls */}
 <button
   type="button"
   className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -142,7 +148,31 @@ const Banner = () => {
     <span className="sr-only">Next</span>
   </span>
 </button>
+
+
+<div className="absolute top-0 left-0 right-0 z-50 flex justify-center mt-10">
+      <form 
+      className="flex items-center bg-white border border-gray-300 rounded-lg px-2 py-1"
+      onSubmit={handleSubmit}
+      >
+        <input
+          type="text"
+          id="voice-search"
+          className="w-64 bg-transparent border-none focus:ring-0 focus:border-blue-500 outline-none py-1"
+          placeholder="Search Doctors"
+          required=""
+          onChange={searchDoc}
+        />
+        <button
+          type="submit"
+          className="ml-2 text-white bg-customColor rounded-lg px-3 py-1"
+        >
+          Search
+        </button>
+      </form>
+    </div>
 </div>
+
     </div>
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-4 text-blue-900">Overview</h1>

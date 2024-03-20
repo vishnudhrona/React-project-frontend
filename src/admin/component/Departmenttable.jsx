@@ -8,6 +8,7 @@ import Departmentdeletecomfirm from './Departmentdeletecomfirm'
 import { departmentEditForm } from '../../Redux/Reducers/adminSlice'
 import Editdepartmentform from './Editdepartmentform'
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 
 const Departmenttable = () => {
     const [departmentForm, setDepartmentForm] = useState(false)
@@ -18,6 +19,7 @@ const Departmenttable = () => {
     const [doctorsPerPage] = useState(5);
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const formClose = useSelector((state) => state.adminData.deparmentFormClose)
     const confirm = useSelector((state) => state.adminData.departmentConfirmDelete)
@@ -49,6 +51,13 @@ const Departmenttable = () => {
         dispatch(departmentId(id))
         dispatch(departmentEditForm(true))
     }
+
+    useEffect(() => {
+        let accessToken = localStorage.getItem('adminToken')
+        if(!accessToken) {
+          navigate('/admin/adminlogin')
+        }
+      })
 
     useEffect(() => {
         try {
@@ -142,7 +151,6 @@ const Departmenttable = () => {
         </div>
 
         <div className="flex justify-center mt-4">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -151,7 +159,6 @@ const Departmenttable = () => {
                    <TbPlayerTrackPrevFilled />
                 </button>
                 
-                {/* Page numbers */}
                   {
                       Array.from({ length: Math.ceil(department.length / doctorsPerPage) }).map((_, index) => (
                           <button
@@ -165,7 +172,6 @@ const Departmenttable = () => {
                       ))
                   }
                 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(department.length / doctorsPerPage)}

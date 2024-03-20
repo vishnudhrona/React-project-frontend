@@ -72,7 +72,6 @@ const Edituserprofile = () => {
             }
 
             instance.post('/updatepatientdata',{formData, dob}).then((response) => {
-                console.log(response,'bbbbbbbccccccccccccc');
                 if(response) {
                     navigate('/userprofile')
                 }
@@ -86,14 +85,13 @@ const Edituserprofile = () => {
     <>
     <div className="flex justify-center items-center"
         style={{
-            backgroundImage: `url(${'https://wallpapercave.com/wp/wp2968489.jpg'})`, // Set the background image
-            backgroundSize: 'cover', // Adjust background size as needed
-            backgroundPosition: 'center', // Adjust background position as needed
-            minHeight: '100vh' // Ensure the background covers the entire viewport
+            backgroundImage: `url(${'https://wallpapercave.com/wp/wp2968489.jpg'})`,
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+            minHeight: '100vh' 
         }}
     >
         <div className="signup-overlay p-5 rounded shadow-md w-80">
-            <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
             <form 
             onSubmit={handleSubmit} 
             >

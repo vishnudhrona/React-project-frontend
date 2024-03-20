@@ -51,13 +51,10 @@ const Slots = () => {
 
       for (let i = 1; i <= slots; i++) {
         const newTime = new Date(startTime.getTime() + i * intervalMillis);
-        console.log(newTime, 'i got new time');
         let hours = newTime.getHours().toString().padStart(2, '0');
         const minutes = newTime.getMinutes().toString().padStart(2, '0');
         const amPM = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12 || 12;
-
-        console.log(`${hours}:${minutes} ${amPM} IST`);
 
         const slotTime = {
           hours: hours,
@@ -97,7 +94,6 @@ const Slots = () => {
   }, [timeDetails])
 
   useEffect(() => {
-    console.log(bookingDate, 'i got booking date inside the useeffect');
     instance.get(`/hiddenbookingtime?bookingdate=${bookingDate}&doctorId=${doctorId}`).then((response) => {
       setHiddenValue(response.data.equalDate)
     })
@@ -113,7 +109,6 @@ const Slots = () => {
 
   let bookingSlot = () => {
     let userToken = localStorage.getItem('token')
-    console.log(userToken,'i got user token');
 
     const headers = {
       'Authorization': `Bearer ${userToken}`
@@ -121,7 +116,7 @@ const Slots = () => {
     
     instance.post('/userbookingslots', { slotTime, doctorId, patientId, consultDate }, { headers }).then((response) => {
       if (response.data.status) {
-        setBookings(response.data)
+        navigate('/login')
       } else {
         setBookings(response.data.response)
         navigate(`/paymentinfo?doctorId=${docId}&dateId=${bookedDate}`)
@@ -164,9 +159,6 @@ const Slots = () => {
         )}
 
         <hr className="border-t border-gray-300" />
-        {bookings.status == true ? (
-          <h6 className="flex justify-center text-red-700 font-bold">{bookings.message} You want to book another slot please cancel previous booking</h6>
-        ) : (
           <div>
 
             {timeSchedule && doctor && doctor.doctor && (
@@ -207,8 +199,6 @@ const Slots = () => {
               </div>
             </div>
           </div>
-        )}
-
         <hr className="border-t border-gray-300" />
         <div className="py-5 flex justify-center ">
           <Link
@@ -219,7 +209,6 @@ const Slots = () => {
           </Link>
         </div>
       </div>
-      {/* Horizontal line for the underline */}
 
     </>
   )

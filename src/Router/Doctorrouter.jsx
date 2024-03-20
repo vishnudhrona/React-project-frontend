@@ -4,7 +4,6 @@ import Doctorloginpage from '../Doctorpages/Doctorloginpage'
 import Doctorsignuppage from '../Doctorpages/Doctorsignuppage'
 import Doctorotploginpage from '../Doctorpages/Doctorotploginpage'
 import Doctoraddprofilepage from '../Doctorpages/Doctoraddprofilepage'
-import Doctorhomepage from '../Doctorpages/Doctorhomepage'
 import Doctorforgotpasswordpage from '../Doctorpages/Doctorforgotpasswordpage'
 import Doctorforgotpasswordconfirmpage from '../Doctorpages/Doctorforgotpasswordconfirmpage'
 import Doctortimeschedulepage from '../Doctorpages/Doctortimeschedulepage'
@@ -23,7 +22,6 @@ const Doctorrouter = () => {
         <Route path='/docotpverification/:number' element = {<Doctorotploginpage />} />
         <Route path='/doctoraddprofile' element = {<Doctoraddprofilepage />} />
         <Route path='/doctorlogin' element = {<Doctorloginpage />} />
-        <Route path='/doctorhome' element = {<Doctorhomepage />} />
         <Route path='/doctorforgotpassword' element = {<Doctorforgotpasswordpage />} />
         <Route path='/doctorforgotpasswordconfirm/:doctorEmail' element = {<Doctorforgotpasswordconfirmpage />} />
         <Route path='/scheduletime' element = {<Doctortimeschedulepage />} />

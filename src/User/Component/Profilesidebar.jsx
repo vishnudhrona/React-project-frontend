@@ -18,12 +18,6 @@ const Profilesidebar = () => {
                     Prescription
                 </Link>
             </li>
-            {/* <li className='text-xs text-black'>
-                <Link to="/appointment-history" className="flex items-center">
-                    <FaHistory className="mr-2" />
-                    Appointment History
-                </Link>
-            </li> */}
         </ul>
     </div>
   )

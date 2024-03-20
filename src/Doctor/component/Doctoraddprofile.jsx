@@ -169,7 +169,6 @@ const Doctoraddprofile = () => {
             });
 
             await instance.post('/doctors/uploadprofile', formDataToSend, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
-                console.log(response,'fuckkkkkkkkkkkkk');
                 if (response.data.status) {
                     toast.success('Sign up is successful You will get a verification Mail on your email Id Thank you', {
                         position: "top-center",
@@ -220,9 +219,9 @@ const Doctoraddprofile = () => {
             />
             <div className="" style={{
                 backgroundImage: `url(${'https://c4.wallpaperflare.com/wallpaper/686/903/613/soft-gradient-solid-color-gradient-hd-wallpaper-preview.jpg'})`, // Set the background image
-                backgroundSize: 'cover', // Adjust background size as needed
-                backgroundPosition: 'center', // Adjust background position as needed
-                minHeight: '100vh' // Ensure the background covers the entire viewport
+                backgroundSize: 'cover',
+                backgroundPosition: 'center', 
+                minHeight: '100vh' 
             }}>
                 <div className="flex justify-center py-5">
                 </div>
@@ -230,8 +229,6 @@ const Doctoraddprofile = () => {
                     <div className="signup-overlayrounded shadow-md p-5">
                         <h2 className="text-2xl font-semibold mb-4">Add your details</h2>
                         <form
-                            // action="/doctors/doctoraddprofile"
-                            // method="post"
                             encType="multipart/form-data"
                             onSubmit={submit}
                         >

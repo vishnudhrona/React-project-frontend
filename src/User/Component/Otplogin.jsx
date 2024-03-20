@@ -18,8 +18,6 @@ const Otplogin = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    console.log(number,'i got user number');
-
     useEffect(() => {
         let interval;
         if(timer > 0 && disableResend) {

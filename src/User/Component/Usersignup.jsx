@@ -113,10 +113,10 @@ const Usersignup = () => {
             />
             <div className="flex justify-center items-center"
                 style={{
-                    backgroundImage: `url(${'https://wallpapercave.com/wp/wp2968489.jpg'})`, // Set the background image
-                    backgroundSize: 'cover', // Adjust background size as needed
-                    backgroundPosition: 'center', // Adjust background position as needed
-                    minHeight: '100vh' // Ensure the background covers the entire viewport
+                    backgroundImage: `url(${'https://wallpapercave.com/wp/wp2968489.jpg'})`, 
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center', 
+                    minHeight: '100vh'
                 }}
             >
                 <div className="signup-overlay p-5 rounded shadow-md w-80">

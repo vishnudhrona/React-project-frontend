@@ -7,6 +7,7 @@ import { scheduleClose } from '../../Redux/Reducers/doctorSlice';
 import Deletescheduleconfirm from './Deletescheduleconfirm';
 import { scheduleId } from '../../Redux/Reducers/doctorSlice';
 import { scheduleDeleteConfirm } from '../../Redux/Reducers/doctorSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Doctortimescheduletable = () => {
     const [showScheduleForm, setScheduleForm] = useState(false)
@@ -16,6 +17,7 @@ const Doctortimescheduletable = () => {
     const [deleteConfirm, setDeleteConfirm] = useState(false)
     
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     scheduledTime.sort((a, b) => {
         const dateA = new Date(a.dateObject.split('/').reverse().join('/'));
@@ -34,8 +36,16 @@ const Doctortimescheduletable = () => {
     const confirmDelete = useSelector((state) => state.doctorData.scheduleDeleteConfirm)
 
     useEffect(() => {
-        instance.get(`/doctors/fetchtimeschedule?docId=${docId}`).then((timeSchedule) => {
-            setScheduledTime(timeSchedule.data.timeSchedule)
+        const doctorToken = localStorage.getItem('doctorToken')
+        const headers = {
+            'Authorization': `Bearer ${doctorToken}`
+          };
+        instance.get(`/doctors/fetchtimeschedule?docId=${docId}`, { headers }).then((timeSchedule) => {
+            if(timeSchedule.data.status) {
+                navigate('/doctors/doctorsignup')
+            } else {
+                setScheduledTime(timeSchedule.data.timeSchedule)
+            }
         })
       },[docId, schedule, confirmDelete])
 
@@ -154,7 +164,6 @@ const Doctortimescheduletable = () => {
             </div>
 
             <div className="flex justify-center mt-4">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -163,7 +172,6 @@ const Doctortimescheduletable = () => {
                    <TbPlayerTrackPrevFilled />
                 </button>
                 
-                {/* Page numbers */}
                 {Array.from({ length: Math.ceil(scheduledTime.length / doctorsPerPage) }).map((_, index) => (
                     <button
                         key={index}
@@ -176,7 +184,6 @@ const Doctortimescheduletable = () => {
                     </button>
                 ))}
                 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(scheduledTime.length / doctorsPerPage)}

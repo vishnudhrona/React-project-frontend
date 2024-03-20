@@ -14,14 +14,11 @@ const Remoteuservideocall = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const urlRemotePeerId = params.get("peerId");
-  
-    console.log(urlRemotePeerId, "got url peer id");
-  
+    
     useEffect(() => {
       setPeerIdUrl(urlRemotePeerId);
     }, [urlRemotePeerId]);
   
-    console.log(peerId, "peerId");
     useEffect(() => {
       const peer = new Peer();
   
@@ -53,7 +50,6 @@ const Remoteuservideocall = () => {
         incomingCall.answer(mediaStream);
   
         incomingCall.on("stream", (remoteStream) => {
-          console.log(remoteStream, "fffff");
           if (remoteVideoRef.current) {
             remoteVideoRef.current.srcObject = remoteStream;
             remoteVideoRef.current.onloadedmetadata = () => {
@@ -67,7 +63,6 @@ const Remoteuservideocall = () => {
     };
   
     const call = (remotePeerId) => {
-      console.log(remotePeerId, "hhhhhhh");
       var getUserMedia =
         navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
@@ -78,13 +73,9 @@ const Remoteuservideocall = () => {
         currentVideoRef.current.play();
   
         const call = peerInstance.current.call(remotePeerId, mediaStream);
-  
-        console.log(call, "tttt");
-  
+    
         call?.on("stream", (remoteStream) => {
-          console.log(remoteStream, "remoteSTReam");
           if (remoteVideoRef.current) {
-            // remoteVideoRef.current.pause();
   
             remoteVideoRef.current.srcObject = remoteStream;
             remoteVideoRef.current.onloadedmetadata = () => {
@@ -99,12 +90,10 @@ const Remoteuservideocall = () => {
   
     const endCall = () => {
       if (mediaStream) {
-        console.log(mediaStream, "media");
         mediaStream.getTracks().forEach((track) => track.stop());
         setMediaStream(null);
       }
       if (incomingCall) {
-        console.log(incomingCall, "incoming call");
         incomingCall.close();
         setIncomingCall(null);
       }
@@ -113,7 +102,6 @@ const Remoteuservideocall = () => {
         remoteVideoRef.current.pause();
         remoteVideoRef.current.srcObject = null;
       }
-      // Stop local video playback when ending the call
       if (currentVideoRef.current) {
         currentVideoRef.current.pause();
         currentVideoRef.current.srcObject = null;

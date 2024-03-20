@@ -124,9 +124,9 @@ const Doctorsignup = () => {
             <div className="flex justify-center items-center"
                 style={{
                     backgroundImage: `url(${'https://c4.wallpaperflare.com/wallpaper/679/351/670/soft-gradient-solid-color-gradient-hd-wallpaper-preview.jpg'})`, // Set the background image
-                    backgroundSize: 'cover', // Adjust background size as needed
-                    backgroundPosition: 'center', // Adjust background position as needed
-                    minHeight: '100vh' // Ensure the background covers the entire viewport
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center', 
+                    minHeight: '100vh' 
                 }}
             >
                 <div className="signup-overlay p-5 rounded shadow-md w-80">
@@ -182,7 +182,6 @@ const Doctorsignup = () => {
                                     </>
                                     ))}
 
-                                    {/* Add more options as needed */}
                                 </select>
                                 {formErrors.department && (
                                     <span className="text-red-500 text-xs">{formErrors.department}</span>

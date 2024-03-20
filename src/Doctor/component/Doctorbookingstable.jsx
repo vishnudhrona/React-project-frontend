@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import instance from '../../Axios/Axios';
 import { useSelector } from 'react-redux';
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb';
@@ -8,6 +8,8 @@ const Doctorbookingstable = () => {
     const [bookingDetails, setBookingDetails] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [doctorsPerPage] = useState(5);
+
+    const navigate = useNavigate()
 
     const doctorId = useSelector((state) => state.doctorData.doctorId);
 
@@ -26,9 +28,16 @@ const Doctorbookingstable = () => {
         const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
-        instance.get(`/doctors/fetchbookingdetails?doctorId=${doctorId}`).then((bookings) => {
-                console.log(bookings.data.response, "zzzzeeeeee");
-                setBookingDetails(bookings.data.response);
+        const doctorToken = localStorage.getItem('doctorToken')
+        const headers = {
+            'Authorization': `Bearer ${doctorToken}`
+          };
+        instance.get(`/doctors/fetchbookingdetails?doctorId=${doctorId}`,{ headers }).then((bookings) => {
+                if(bookings.data.status) {
+                    navigate('/doctors/doctorsignup')
+                } else {
+                    setBookingDetails(bookings.data.response);
+                }
             });
     }, [doctorId]);
 
@@ -45,10 +54,10 @@ const Doctorbookingstable = () => {
                                 Patient Name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Number
+                                Email
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                DOB
+                                Number
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Booking Date
@@ -86,7 +95,7 @@ const Doctorbookingstable = () => {
                                     <td className="px-6 py-4">{bookings.slotTime}</td>
                                     <td className="px-6 py-4">
                                         <Link
-                                            to={`/doctors/videocall?bookinguseremail=${bookings.patientemail}&patientId=${bookings.patientId}`}
+                                            to={`/doctors/videocall?bookinguseremail=${bookings.patientemail}&patientId=${bookings.patientId}&bookingId=${bookings._id}`}
                                             className="font-medium text-red-600 dark:text-blue-500 hover:underline">
                                             Video call
                                         </Link>
@@ -100,7 +109,6 @@ const Doctorbookingstable = () => {
             </div>
 
             <div className="flex justify-center mt-4">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -109,7 +117,6 @@ const Doctorbookingstable = () => {
                    <TbPlayerTrackPrevFilled />
                 </button>
                 
-                {/* Page numbers */}
                 {Array.from({ length: Math.ceil(bookingDetails.length / doctorsPerPage) }).map((_, index) => (
                     <button
                         key={index}
@@ -122,7 +129,6 @@ const Doctorbookingstable = () => {
                     </button>
                 ))}
                 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(bookingDetails.length / doctorsPerPage)}

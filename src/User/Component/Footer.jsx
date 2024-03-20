@@ -4,12 +4,6 @@ const Footer = () => {
   return (
     <div>
     <>
- {/*
- Heads up! 👋
-
- Plugins:
-   - @tailwindcss/forms
-*/}
  <footer className=" absolute bg-footerColor">
    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
      <div className="lg:flex lg:items-start lg:gap-8">

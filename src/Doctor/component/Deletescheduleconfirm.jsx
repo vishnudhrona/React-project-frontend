@@ -8,11 +8,9 @@ const Deletescheduleconfirm = () => {
     const dispatch = useDispatch()
 
     const timeId = useSelector((state) => state.doctorData.scheduleId)
-    console.log(timeId,'i got time id');
     
     const scheduleDelete = () => {
         instance.post('/doctors/deletedoctorschedule', { timeId }).then((status) => {
-            console.log(status.data, 'i got deleted response');
             dispatch(scheduleDeleteConfirm(false))
         })
     }
@@ -25,7 +23,6 @@ const Deletescheduleconfirm = () => {
     <>
   <div className='fixed inset-0 flex items-center justify-center'>
     <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-      {/* Modal content */}
       <div className="relative p-4 text-center deleteConfirm-overlay rounded-lg shadow dark:bg-red-800 sm:p-5">
         <svg
           className="text-red-600 dark:text-red-500 w-11 h-11 mb-3.5 mx-auto"

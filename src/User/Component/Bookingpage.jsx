@@ -19,16 +19,11 @@ const Bookingpage = () => {
     
     useEffect(() => {
       instance.get(`/usersidetimeschedule?docId=${doctorId}`).then((response) => {
-        console.log(response, "i got frontend response");
         setDoctor(response.data.doctorProfile);
         setImageUrl(response.data.imageUrl)
         setScheduledTime(response.data.scheduledTime);
       });
     }, [doctorId]);
-    
-    // const handleDateChange = (date) => {
-    //   setSelectedDate(date);
-    // };
   
    const slotShowing = (timeId) => {
     setShowSlots(true)
@@ -55,16 +50,6 @@ const Bookingpage = () => {
         <p className="text-sm p-2 font-semibold  text-blue-700">
           Available Time
         </p>
-        {/* <div className="relative ml-auto pr-20">
-          <DatePicker
-            selected={selectedDate}
-            onChange={handleDateChange}
-            dateFormat="yyyy-MM-dd"
-            placeholderText="Select a date"
-            className="w-21 px-4 py-2 border border-gray-600 rounded focus:outline-none focus:border-blue-500"
-          />
-          <CgCalendarDates className="absolute top-1/2 left-40 mt-5 text-blue-600 transform -translate-y-8 w-6 h-6 dark:text-gray-400" />
-        </div> */}
       </div>
       <div className="h-80 w-full bg-white mt-3 p-5">
         {imageUrl && (
@@ -94,7 +79,6 @@ const Bookingpage = () => {
               scheduledTime.map((timeDetails, index) => (
                 <>
                 <button
-                // to={'/slots'}
                 onClick={() => slotShowing(timeDetails._id)}
                 >
                   <div className="w-28" key={index}>

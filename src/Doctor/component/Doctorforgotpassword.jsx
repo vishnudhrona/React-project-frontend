@@ -103,11 +103,6 @@ const Doctorforgotpassword = () => {
                 >
                   Send OTP
                 </button>
-                {/* {errorMessage && (
-                <div className="pt-5">
-                 <div className="text-red-500">{errorMessage}</div>
-                 </div>
-                 )} */}
               </form>
             </div>
           </div>

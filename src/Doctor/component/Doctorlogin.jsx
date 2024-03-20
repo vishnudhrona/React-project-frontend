@@ -23,12 +23,12 @@ const Doctorlogin = () => {
 
     useEffect(() => {
         const accessToken = localStorage.getItem('doctorToken')
-        if(!accessToken) {
-          navigate('/doctors/doctorlogin')
+        if (!accessToken) {
+            navigate('/doctors/doctorlogin')
         } else {
-          navigate('/doctors/patientbookingdetails')
-        } 
-      },[navigate])
+            navigate('/doctors/patientbookingdetails')
+        }
+    }, [navigate])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -36,7 +36,7 @@ const Doctorlogin = () => {
             instance.post('/doctors/doctorlogin', { formData }).then((response) => {
                 if (response.data.status) {
                     if (response.data.user.signupStatus === "Approved") {
-                        localStorage.setItem('doctorToken', JSON.stringify(response.data.auth))
+                        localStorage.setItem('doctorToken', response.data.auth)
                         dispatch(doctorId(response.data.user._id))
                         navigate('/doctors/patientbookingdetails')
                     } else {
@@ -63,7 +63,7 @@ const Doctorlogin = () => {
                         progress: undefined,
                         theme: "colored",
                         transition: Zoom,
-                    });         
+                    });
                 }
             })
         } catch (err) {
@@ -108,9 +108,6 @@ const Doctorlogin = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                     />
-                                    {/* {formErrors.email && (
-                                            <span className="text-red-500 text-xs">{formErrors.email}</span>
-                                        )} */}
                                     <input
                                         className="h-5 border-slate-300 rounded custom-input"
                                         type="password"
@@ -119,9 +116,6 @@ const Doctorlogin = () => {
                                         value={formData.password}
                                         onChange={handleChange}
                                     />
-                                    {/* {formErrors.password && (
-                                            <span className="text-red-500 text-xs">{formErrors.password}</span>
-                                        )} */}
                                     <Link
                                         to={"/doctors/doctorforgotpassword"}
                                         className="text-xs font-semibold hover:text-slate-500"

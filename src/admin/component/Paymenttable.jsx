@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/Axios'
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 const Paymenttable = () => {
     const [paymentDetails, setPaymentDetails] = useState([])
@@ -9,14 +10,20 @@ const Paymenttable = () => {
     const [pay, setPay] = useState('')
     const [paymentResponse ,setPaymentResponse] = useState(false)
 
-    console.log(paymentDetails);
+    const navigate = useNavigate()
 
     useEffect(() => {
         instance.get('/admin/paymentmanagement').then((response) => {
-            console.log(response.data.response, 'payment detailsssss');
             setPaymentDetails(response.data.response)
         })
     }, [paymentResponse])
+
+    useEffect(() => {
+        let accessToken = localStorage.getItem('adminToken')
+        if(!accessToken) {
+          navigate('/admin/adminlogin')
+        }
+      })
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -26,7 +33,6 @@ const Paymenttable = () => {
     
     const payment = (id, totalAmount) => {
         try {
-            console.log(id,'jjjjjjjjjjjjj');
             instance.post('/admin/doctorpayment', { id, totalAmount }).then((response) => {
                 setPay(response.data.order)
             })
@@ -37,7 +43,6 @@ const Paymenttable = () => {
     
     useEffect(() => {
         if (pay) {
-            console.log(pay.receipt,'i got payyyyyyy');
             try {
                 var options = {
                     "key": "rzp_test_gFSzKrbiJVMqDa", // Enter the Key ID generated from the Dashboard
@@ -72,10 +77,8 @@ const Paymenttable = () => {
     }, [pay])
 
     const paymentVerification = (res, order) => {
-        console.log('payment verification is working');
         try {
             instance.post('/admin/doctorverifypayment', { res, order }).then((response) => {
-                console.log(response.data.response.status,'jjjjjjjjjjjjjjqqqqqqqq');
                 setPaymentResponse(response.data.response.status)
             })
         } catch(err) {
@@ -162,7 +165,6 @@ const Paymenttable = () => {
             </div>
 
             <div className="flex justify-center mt-4">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -171,7 +173,6 @@ const Paymenttable = () => {
                     <TbPlayerTrackPrevFilled />
                 </button>
 
-                {/* Page numbers */}
                 {Array.from({ length: Math.ceil(paymentDetails.length / doctorsPerPage) }).map((_, index) => (
                     <button
                         key={index}
@@ -183,7 +184,6 @@ const Paymenttable = () => {
                     </button>
                 ))}
 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(paymentDetails.length / doctorsPerPage)}

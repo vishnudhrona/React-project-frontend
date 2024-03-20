@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/Axios'
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 
 const Usertable = () => {
     const [users, setUsers] = useState([])
@@ -10,11 +11,20 @@ const Usertable = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredDoctorProfile, setFilteredDoctorProfile] = useState([]);
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         instance.get('/admin/usermanagement').then((users) => {
             setUsers(users.data.users)
         })
     }, [blockedStatus])
+
+    useEffect(() => {
+        let accessToken = localStorage.getItem('adminToken')
+        if(!accessToken) {
+          navigate('/admin/adminlogin')
+        }
+      })
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -24,7 +34,6 @@ const Usertable = () => {
 
     const block = (userId) => {
         instance.get(`/admin/userblock?userId=${userId}`).then((status) => {
-            console.log(status.data.status, 'i got approval status');
             setBlockedStatus((prevStatus) => ({
                 ...prevStatus,
                 [userId]: status.data.status
@@ -231,7 +240,6 @@ const Usertable = () => {
             </div>
 
             <div className="flex justify-center mt-4">
-                {/* Previous page button */}
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -240,7 +248,6 @@ const Usertable = () => {
                     <TbPlayerTrackPrevFilled />
                 </button>
 
-                {/* Page numbers */}
                 {Array.from({ length: Math.ceil(users.length / doctorsPerPage) }).map((_, index) => (
                     <button
                         key={index}
@@ -252,7 +259,6 @@ const Usertable = () => {
                     </button>
                 ))}
 
-                {/* Next page button */}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === Math.ceil(users.length / doctorsPerPage)}

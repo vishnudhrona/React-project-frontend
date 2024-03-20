@@ -6,7 +6,6 @@ const Megamenuspecialities = () => {
   return (
     <div className="absolute mt-2 p-8 space-x-4 bg-megamenuColor border shadow-xl w-auto">
       <div className="grid grid-cols-3 gap-20">
-        {/* Column 1 */}
         <div className="col-span-1 text-white">
           <div className="flex items-center gap-2">
             <GiIndianPalace />
@@ -31,7 +30,6 @@ const Megamenuspecialities = () => {
             <li className="text-lg mt-2">
               <a href="#">Aster PMF, Kollam</a>
             </li>
-            {/* Add more links */}
           </ul>
           <div className="mt-16">
             <div className="flex items-center gap-2">
@@ -46,7 +44,6 @@ const Megamenuspecialities = () => {
           </div>
         </div>
 
-        {/* Column 2 */}
         <div className="col-span-1 text-white">
           <div className="flex items-center gap-2">
             <GiIndiaGate />
@@ -71,7 +68,6 @@ const Megamenuspecialities = () => {
             <li className="text-lg mt-2">
               <a href="#">Aster PMF, Kollam</a>
             </li>
-            {/* Add more links */}
           </ul>
           <div className="mt-16">
             <div className="flex items-center gap-2">
@@ -110,7 +106,6 @@ const Megamenuspecialities = () => {
             <li className="text-lg mt-2">
               <a href="#">Aster PMF, Kollam</a>
             </li>
-            {/* Add more links */}
           </ul>
           <div className="mt-16">
             <div className="flex items-center gap-2">

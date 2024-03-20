@@ -7,7 +7,7 @@ const Prescriptionpage = () => {
   return (
     <>
     <Doctornav />
-    <div className='pt-10'>
+    <div className='pt-12'>
     <Prescription />
     </div>
     <Doctorfooter />

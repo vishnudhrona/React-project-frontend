@@ -23,7 +23,6 @@ const Adddepartmentform = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
-            console.log('this is workinggg');
             const validationErrors = {};
 
             if (!formData.department) {
@@ -36,7 +35,6 @@ const Adddepartmentform = () => {
             }
 
             instance.post('/admin/adddepartment',{formData}).then((response) => {
-                console.log(response,'department add response');
                 if(response.data.response.status) {
                     dispatch(deparmentFormClose(false))
                 }

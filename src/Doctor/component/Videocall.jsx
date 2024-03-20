@@ -5,7 +5,6 @@ import { Peer } from "peerjs";
 
 const Videocall = () => {
     const [peerId, setPeerId] = useState("");
-  //   const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
   const [inviteButtonClicked, setInviteButtonClicked] = useState(false);
   const [calling, setCalling] = useState(true)
   const [incomingCall, setIncomingCall] = useState(null);
@@ -18,19 +17,17 @@ const Videocall = () => {
   const urlParams = new URLSearchParams(location.search);
   const bookingUserEmail = urlParams.get("bookinguseremail");
   const patientId = urlParams.get("patientId")
+  const bookingId = urlParams.get('bookingId')
 
   const navigate = useNavigate()
 
   const invitePatient = () => {
-    console.log(peerId,'this os peer id');
-    console.log(bookingUserEmail,'this is my email id');
     instance.get(
       `/doctors/invitingpatient?peerId=${peerId}&bookinguseremail=${bookingUserEmail}`
     );
     setInviteButtonClicked(true);
   };
 
-  console.log(peerId, "peerId");
   useEffect(() => {
     const peer = new Peer();
 
@@ -63,7 +60,6 @@ const Videocall = () => {
       incomingCall.answer(mediaStream);
 
       incomingCall.on("stream", (remoteStream) => {
-        console.log(remoteStream, "fffff");
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = remoteStream;
           remoteVideoRef.current.onloadedmetadata = () => {
@@ -88,12 +84,8 @@ const Videocall = () => {
 
       const call = peerInstance.current.call(remotePeerId, mediaStream);
 
-      console.log(call, "tttt");
-
       call?.on("stream", (remoteStream) => {
-        console.log(remoteStream, "remoteSTReam");
         if (remoteVideoRef.current) {
-          // remoteVideoRef.current.pause();
 
           remoteVideoRef.current.srcObject = remoteStream;
           remoteVideoRef.current.onloadedmetadata = () => {
@@ -108,12 +100,10 @@ const Videocall = () => {
 
   const endCall = () => {
     if (mediaStream) {
-      console.log(mediaStream, "media");
       mediaStream.getTracks().forEach((track) => track.stop());
       setMediaStream(null);
     }
     if (incomingCall) {
-      console.log(incomingCall, "incoming call");
       incomingCall.close();
       setIncomingCall(null);
     }
@@ -122,12 +112,11 @@ const Videocall = () => {
       remoteVideoRef.current.pause();
       remoteVideoRef.current.srcObject = null;
     }
-    // Stop local video playback when ending the call
     if (currentVideoRef.current) {
       currentVideoRef.current.pause();
       currentVideoRef.current.srcObject = null;
     }
-    navigate(`/doctors/prescription?patientId=${patientId}`)
+    navigate(`/doctors/prescription?patientId=${patientId}&bookingId=${bookingId}`)
   };
   return (
     <>
@@ -160,13 +149,6 @@ const Videocall = () => {
       </div>
 
       <div className="flex justify-center items-center p-5">
-        {/* <input
-        type="text"
-        value={remotePeerIdValue}
-        onChange={(e) => setRemotePeerIdValue(e.target.value)}
-      /> */}
-        {/* <button className='bg-blue-500' onClick={() => call(remotePeerIdValue)}>call</button> */}
-
         <div className="">
           {incomingCall && calling && (
             <div className="">

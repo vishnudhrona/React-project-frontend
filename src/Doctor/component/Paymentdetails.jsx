@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/Axios'
 import { useSelector } from 'react-redux'
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 
 const Paymentdetails = () => {
     const [paymentDetails, setPaymentDetails] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [doctorsPerPage] = useState(5);
 
+    const navigate = useNavigate()
+
     const doctorId = useSelector((state) => state.doctorData.doctorId)
-    console.log(doctorId,'nnnnnnnnnnnnnnnnnnn');
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -18,8 +20,16 @@ const Paymentdetails = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
-        instance.get(`/doctors/fetchdocpaymentdetails?doctorId=${doctorId}`).then((response) => {
-            setPaymentDetails(response.data.response)
+        const doctorToken = localStorage.getItem('doctorToken')
+        const headers = {
+            'Authorization': `Bearer ${doctorToken}`
+          };
+        instance.get(`/doctors/fetchdocpaymentdetails?doctorId=${doctorId}`, { headers }).then((response) => {
+            if(response.data.status) {
+                navigate('/doctors/doctorsignup')
+            } else {
+                setPaymentDetails(response.data.response)
+            }
         })
     }, [])
 
@@ -96,7 +106,6 @@ const Paymentdetails = () => {
             </table>
         </div>
         <div className="flex justify-center mt-4">
-        {/* Previous page button */}
         <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
@@ -105,7 +114,6 @@ const Paymentdetails = () => {
            <TbPlayerTrackPrevFilled />
         </button>
         
-        {/* Page numbers */}
         {Array.from({ length: Math.ceil(paymentDetails.length / doctorsPerPage) }).map((_, index) => (
             <button
                 key={index}
@@ -118,7 +126,6 @@ const Paymentdetails = () => {
             </button>
         ))}
         
-        {/* Next page button */}
         <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === Math.ceil(paymentDetails.length / doctorsPerPage)}

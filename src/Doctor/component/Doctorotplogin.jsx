@@ -40,7 +40,6 @@ const Doctorotplogin = () => {
 
             let otp = formData.otp
             instance.post('/doctors/docotpverification',{otp, number}).then((response) => {
-                console.log(response,'hhhhhhhhhhhhhhhh');
                 if(response.data.otpVerifiedStatus === 'approved') {
                     dispatch(doctorId(response.data.doc._id))
                     navigate('/doctors/doctoraddprofile')
@@ -106,14 +105,6 @@ const Doctorotplogin = () => {
                                             {formErrors.otp}
                                         </span>
                                     )}
-                                    {/* {disableResend ? 
-                          <span>{timer}</span> : 
-                          <button 
-                          onClick={handleResend} 
-                          className='text-xs'
-                          >
-                            Resend OTP
-                            </button>} */}
                                     <button
                                         type="submit"
                                         className="bg-loginBackgroundColor text-white text-sm p-1 w-52 mt-4 hover:bg-hoverLogin rounded"

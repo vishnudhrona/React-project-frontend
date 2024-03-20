@@ -51,8 +51,7 @@ const Adminlogin = () => {
 
             instance.post('/admin/adminlogin', { formData }).then((response) => {
                 if(response.data.response.status) {
-                    console.log(response.data.auth,'uuuuuuuuuuuuuuu');
-                    localStorage.setItem('adminToken', JSON.stringify(response.data.auth))
+                    localStorage.setItem('adminToken', response.data.auth)
                     navigate('/admin/doctormanagement')
                 } else {
                     toast.error("Invalid credentials", {
@@ -91,9 +90,9 @@ const Adminlogin = () => {
             <div className=""
                 style={{
                     backgroundImage: `url(${'https://cdn.shopify.com/s/files/1/0078/7044/7669/articles/How_to_Set_up_Laptops_for_Employees_Working_Remotely.jpg?v=1685979922'})`, // Set the background image
-                    backgroundSize: 'cover', // Adjust background size as needed
-                    backgroundPosition: 'center', // Adjust background position as needed
-                    minHeight: '100vh' // Ensure the background covers the entire viewport
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center', 
+                    minHeight: '100vh' 
                 }}>
                 <div className="flex justify-center items-center h-screen">
                     <div className="admin-overlay p-5 overflow-auto rounded shadow-md w-80">

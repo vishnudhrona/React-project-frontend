@@ -37,7 +37,6 @@ const Forgotpasswordconfirm = () => {
 }
 
     const { userEmail } = useParams();
-    console.log(userEmail,'jjjjjjjjjjjjj');
     const navigate = useNavigate()
 
     const handleChange = (e) => {

@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import instance from '../../Axios/Axios';
 
 const Doctorprofile = () => {
     const [docProfile, setDocProfile] = useState("");
 
+    const navigate = useNavigate()
+
     const docId = useSelector((state) => state.doctorData.doctorId)
 
     useEffect(() => {
-        instance.get(`/doctors/fetchdoctorprofile?docId=${docId}`).then((docProfile) => {
-            if (docProfile && docProfile.data) {
+        const doctorToken = localStorage.getItem('doctorToken')
+        const headers = {
+            'Authorization' : `Bearer ${doctorToken}`
+        }
+
+        instance.get(`/doctors/fetchdoctorprofile?docId=${docId}`,{ headers }).then((docProfile) => {
+            if (docProfile.data.status) {
+                navigate('/doctors/doctorsignup')
+            } else if(docProfile && docProfile.data) {
                 setDocProfile(docProfile);
-            } else {
-                console.error("image url not found in the image data");
             }
         })
             .catch((error) => {
@@ -82,32 +89,6 @@ const Doctorprofile = () => {
                             </Link>
                         </div>
                     </div>
-
-                    {/* <div className='py-2'>
-
-            
-<Link
-to={'/doctors/doctoraddprofile'}
-className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
->
-Add your profile
-<svg
-className="w-3.5 h-3.5 ml-2"
-aria-hidden="true"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 14 10"
->
-<path
-stroke="currentColor"
-strokeLinecap="round"
-strokeLinejoin="round"
-strokeWidth={2}
-d="M1 5h12m0 0L9 1m4 4L9 9"
-/>
-</svg>
-</Link>
-</div> */}
                 </div>
 
                 <div>
