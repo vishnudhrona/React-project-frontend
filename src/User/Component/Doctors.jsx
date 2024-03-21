@@ -20,6 +20,10 @@ const Doctors = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const findIndexOf = (doctor) => {
+    return doctorDetails.findIndex((doc) => doc.doctorId === doctor.doctorId);
+};
+
   return (
     <>
     <div className="bg-blue-200 p-5">
@@ -39,7 +43,7 @@ const Doctors = () => {
           className=" w-60 border border-slate-400 rounded overflow-hidden shadow-lg">
           <img
             className="w-full"
-            src={doctorImage[index]}
+            src={doctorImage[findIndexOf(doctor)]}
             alt="Sunset in the mountains"
           />
           <div className="px-6 py-4">

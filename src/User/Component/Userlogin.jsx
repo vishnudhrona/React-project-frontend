@@ -52,7 +52,7 @@ const Userlogin = () => {
                     dispatch(patientId(response.data.user._id));
                     dispatch(name(response.data.user.name));
                     navigate("/");
-                  } else if(response.data.status === 'nouser') {
+                } else if (response.data.status === 'nouser') {
                     toast.error(response.data.message, {
                         position: "top-right",
                         autoClose: 5000,
@@ -64,7 +64,7 @@ const Userlogin = () => {
                         theme: "colored",
                         transition: Zoom,
                     });
-                  } else {
+                } else {
                     toast.error(response.data.error, {
                         position: "top-right",
                         autoClose: 5000,
@@ -76,7 +76,7 @@ const Userlogin = () => {
                         theme: "colored",
                         transition: Zoom,
                     });
-                  }
+                }
             })
         } catch (err) {
             console.error(err);
@@ -85,17 +85,17 @@ const Userlogin = () => {
 
     useEffect(() => {
         const accessToken = localStorage.getItem('token')
-        if(!accessToken) {
-          navigate('/login')
+        if (!accessToken) {
+            navigate('/login')
         } else {
-          navigate('/')
-        } 
-      },[navigate])
+            navigate('/')
+        }
+    }, [navigate])
 
 
     return (
         <>
-        <ToastContainer
+            <ToastContainer
                 position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}

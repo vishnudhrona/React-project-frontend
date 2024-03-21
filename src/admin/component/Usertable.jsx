@@ -24,7 +24,7 @@ const Usertable = () => {
         if(!accessToken) {
           navigate('/admin/adminlogin')
         }
-      })
+      }, [])
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -38,6 +38,17 @@ const Usertable = () => {
                 ...prevStatus,
                 [userId]: status.data.status
             }))
+
+            setUsers(prevUser => prevUser.map(user => 
+                user._id ===userId ? { ...user, signupStatus : status.data.status} : user
+                ))
+
+                if(searchInput) {
+                    setFilteredDoctorProfile(prevFilteredUser => 
+                        prevFilteredUser.map(user => 
+                            user._id ===  userId ? {...user, signupStatus : status.data.status} : user
+                            ))
+                }
         })
     }
 
@@ -47,6 +58,17 @@ const Usertable = () => {
                 ...prevStatus,
                 [userId]: status.data.status
             }))
+
+            setUsers(prevUser => prevUser.map(user => 
+                user._id ===userId ? { ...user, signupStatus : status.data.status} : user
+                ))
+
+                if(searchInput) {
+                    setFilteredDoctorProfile(prevFilteredUser => 
+                        prevFilteredUser.map(user => 
+                            user._id ===  userId ? {...user, signupStatus : status.data.status} : user
+                            ))
+                }
         })
     }
 

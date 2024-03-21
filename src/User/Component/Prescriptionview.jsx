@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 
 const Prescriptionview = () => {
     const [prescription, setPrescription] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
 
     const patientId = useSelector((state) => state.patientData.patientId);
 
@@ -26,37 +28,58 @@ const Prescriptionview = () => {
         document.body.removeChild(link);
     }
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = prescription.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <>
-            <div className='gap-4'>
-                {prescription.map((pre, index) => (
-                    <table key={index} className="border-collapse border border-black w-full">
-                        <thead>
-                            <tr>
-                                <th className="px-2 py-2 border border-black text-xs">
-                                    {pre.doctorfirstname} {pre.doctorlastname}
-                                </th>
-                                <th className="px-2 py-2 text-xs">
-                                    {pre.department}
-                                </th>
-                                <th className="px-2 py-2 border border-black text-xs">
-                                    {pre.bookingDate}
-                                </th>
-                                <th className="px-2 py-2 text-xs">
-                                    {pre.bookingtime}
-                                </th>
-                                <th className="px-2 py-2 border border-black">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {currentItems.map((pre, index) => (
+                <div key={index} className="bg-white shadow-md rounded-lg overflow-hidden">
+                    <div className="px-4 py-3 border-b border-gray-200">
+                        <h3 className="text-lg font-semibold text-gray-800">{pre.doctorfirstname} {pre.doctorlastname}</h3>
+                        <p className="text-sm text-gray-600">{pre.department}</p>
+                    </div>
+                    <div className="p-4">
+                        <p className="text-sm text-gray-700">Date: {pre.bookingDate}</p>
+                        <p className="text-sm text-gray-700">Time: {pre.bookingtime}</p>
+                    </div>
+                    <div className="px-4 py-3 border-t border-gray-200 flex justify-end">
+                        <button
+                            onClick={() => downloadPrescription(pre.pdfBase64, `prescription_${index}.pdf`)}
+                            className="bg-buttonColor hover:bg-green-600 text-white py-2 px-4 rounded-md text-sm"
+                        >
+                            Download Prescription
+                        </button>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <div className="flex justify-center mt-4">
+                <nav className="flex" aria-label="Pagination">
+                    {prescription.length > itemsPerPage && (
+                        <ul className="flex">
+                            {[...Array(Math.ceil(prescription.length / itemsPerPage)).keys()].map((number) => (
+                                <li key={number} className="cursor-pointer">
                                     <button
-                                    onClick={() => downloadPrescription(pre.pdfBase64, `prescription_${index}.pdf`)} 
-                                    className=" bg-green-500 hover:bg-green-600 border rounded py-1 px-1 text-xs"
+                                        className={`${
+                                            currentPage === number + 1
+                                                ? 'bg-customColor text-white'
+                                                : 'text-blue-500 hover:text-blue-800'
+                                        } px-3 py-1 rounded-md`}
+                                        onClick={() => paginate(number + 1)}
                                     >
-                                        Download Your Prescription
+                                        {number + 1}
                                     </button>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                ))}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </nav>
             </div>
         </>
     );

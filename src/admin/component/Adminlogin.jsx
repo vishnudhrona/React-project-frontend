@@ -89,7 +89,7 @@ const Adminlogin = () => {
             />
             <div className=""
                 style={{
-                    backgroundImage: `url(${'https://cdn.shopify.com/s/files/1/0078/7044/7669/articles/How_to_Set_up_Laptops_for_Employees_Working_Remotely.jpg?v=1685979922'})`, // Set the background image
+                    backgroundImage: `url(${'https://cdn.shopify.com/s/files/1/0078/7044/7669/articles/How_to_Set_up_Laptops_for_Employees_Working_Remotely.jpg?v=1685979922'})`,
                     backgroundSize: 'cover', 
                     backgroundPosition: 'center', 
                     minHeight: '100vh' 

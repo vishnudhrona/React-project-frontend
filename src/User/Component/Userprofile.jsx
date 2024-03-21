@@ -5,7 +5,7 @@ import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb
 import Cancelbookingconfirm from './Cancelbookingconfirm';
 import { bookingId } from '../../Redux/Reducers/patientSlice'
 import { closingBooking } from '../../Redux/Reducers/patientSlice'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Userprofile = () => {
     const [patientDetails, setPatientDetails] = useState({})
@@ -17,6 +17,7 @@ const Userprofile = () => {
     const [lastAppointment, setLastAppointment] = useState({})
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const patientId = useSelector((state) => state.patientData.patientId)
     const bookingConfirm = useSelector((state) => state.patientData.closingBooking)
@@ -34,9 +35,18 @@ const Userprofile = () => {
     }
 
     useEffect(() => {
-        instance.get(`/fetchuserprofile?patientId=${patientId}`).then((response) => {
-            setPatientDetails(response.data.response.patientDetails)
-            setBookingDetails(response.data.response.bookingDetails)
+        let userToken = localStorage.getItem('token')
+
+        const headers = {
+            'Authorization': `Bearer ${userToken}`
+        };
+        instance.get(`/fetchuserprofile?patientId=${patientId}`, { headers }).then((response) => {
+            if (response.data.status) {
+                navigate('/login')
+            } else {
+                setPatientDetails(response.data.response.patientDetails)
+                setBookingDetails(response.data.response.bookingDetails)
+            }
         })
     }, [bookingConfirm])
 

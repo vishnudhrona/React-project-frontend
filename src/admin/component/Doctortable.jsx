@@ -20,14 +20,14 @@ const Doctortable = () => {
     if(!accessToken) {
       navigate('/admin/adminlogin')
     }
-  })
+  },[approvalStatus])
 
 
   useEffect(() => {
     instance.get('/admin/doctormanagement').then((doctors) => {
       setDoctors(doctors.data.doctors)
     })
-  }, [approvalStatus])
+  }, [approvalStatus, filteredDoctorProfile])
 
   const indexOfLastDoctor = currentPage * doctorsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -37,19 +37,49 @@ const Doctortable = () => {
 
   const approve = (doctorId) => {
     instance.get(`/admin/doctorapproval?doctorId=${doctorId}`).then((status) => {
+      console.log(status.data,'vvvvvvvvvvvvvvv');
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
       }))
+
+      setDoctors(prevDoctors => prevDoctors.map(doctor => 
+        doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
+      ));
+
+      if (searchInput) {
+        setFilteredDoctorProfile(prevFilteredDoctors =>
+          prevFilteredDoctors.map(doctor =>
+            doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
+          )
+        );
+      }
+
     })
   }
 
   const Inerdict = (doctorId) => {
+    console.log(doctorId,'jjjjjjjjjjj');
     instance.get(`/admin/doctorinterdict?doctorId=${doctorId}`).then((status) => {
+      console.log(status.data,'vvvvvvvvvvvvvvv');
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
       }))
+
+      setDoctors(prevDoctors => prevDoctors.map(doctor => 
+        doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
+      ));
+
+      if (searchInput) {
+        setFilteredDoctorProfile(prevFilteredDoctors =>
+          prevFilteredDoctors.map(doctor =>
+            doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
+          )
+        );
+      }
+
+      
     })
   }
 

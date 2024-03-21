@@ -25,9 +25,9 @@ const Prescription = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
-      };
+    };
 
-      const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         try {
             const validationErrors = {};
@@ -49,29 +49,29 @@ const Prescription = () => {
 
             if (!formData.gender) {
                 validationErrors.gender = "Gender is required";
-            } else if(!nameRegex.test(formData.gender)) {
+            } else if (!nameRegex.test(formData.gender)) {
                 validationErrors.gender = "Enter only your gender"
             }
 
-            if(!formData.dob) {
+            if (!formData.dob) {
                 validationErrors.dob = "Dob is required"
-            } 
+            }
 
-            if(!formData.disease) {
+            if (!formData.disease) {
                 validationErrors.disease = "Disease is required"
             }
 
-            if(!formData.test) {
+            if (!formData.test) {
                 validationErrors.test = "Test is required"
             }
 
-            if(!formData.age) {
+            if (!formData.age) {
                 validationErrors.age = 'Age is required'
-            } else if(!numberRegex.test(formData.age)) {
+            } else if (!numberRegex.test(formData.age)) {
                 validationErrors.age = "Enter numerical value"
             }
 
-            if(!formData.medicine) {
+            if (!formData.medicine) {
                 validationErrors.medicine = "Medicine is required"
             }
 
@@ -80,31 +80,30 @@ const Prescription = () => {
                 return;
             }
 
-            instance.post('/doctors/addprescription',{ formData, patientId, doctorId, bookingId }).then((response) => {
-                if(response.data.status.status) {
-                    const formDataJSON = JSON.stringify(formData);
-        navigate(`/doctors/chumma?formData=${encodeURIComponent(formDataJSON)}`)
+            instance.post('/doctors/addprescription', { formData, patientId, doctorId, bookingId }).then((response) => {
+                if (response.data.status.status) {
+                    navigate('/doctors/patientbookingdetails')
                 }
             })
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
-      }
-    
+    }
+
     return (
         <>
             <div className="flex justify-center items-center py-10"
                 style={{
                     backgroundImage: `url(${'https://c4.wallpaperflare.com/wallpaper/679/351/670/soft-gradient-solid-color-gradient-hd-wallpaper-preview.jpg'})`, // Set the background image
-                    backgroundSize: 'cover', 
+                    backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    minHeight: '100vh' 
+                    minHeight: '100vh'
                 }}
             >
                 <div className="signup-overlay p-5 rounded shadow-md px-10">
                     <h2 className="text-2xl font-semibold mb-4">Add Prescription</h2>
                     <form
-                    onSubmit={handleSubmit}
+                        onSubmit={handleSubmit}
                     >
                         <div className="flex gap-4 mb-4">
                             <div>
@@ -113,14 +112,14 @@ const Prescription = () => {
                                     name="patientfirstname"
                                     placeholder="First Name"
                                     className="w-full border rounded "
-                                value={formData.patientfirstname}
-                                onChange={handleChange}
+                                    value={formData.patientfirstname}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.patientfirstname && (
-                            <span className="text-red-500 text-xs">
-                                {formErrors.patientfirstname}
-                            </span>
-                        )}
+                                    <span className="text-red-500 text-xs">
+                                        {formErrors.patientfirstname}
+                                    </span>
+                                )}
                             </div>
 
                             <div>
@@ -129,12 +128,12 @@ const Prescription = () => {
                                     name="lastName"
                                     placeholder="Last Name"
                                     className="w-full p-2 border rounded"
-                                value={formData.lastName}
-                                onChange={handleChange}
+                                    value={formData.lastName}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.lastName && (
-                            <span className="text-red-500 text-xs">{formErrors.lastName}</span>
-                        )}
+                                    <span className="text-red-500 text-xs">{formErrors.lastName}</span>
+                                )}
                             </div>
 
                             <div>
@@ -143,18 +142,18 @@ const Prescription = () => {
                                     name="gender"
                                     placeholder="Gender"
                                     className="w-full p-2 border rounded"
-                                value={formData.gender}
-                                onChange={handleChange}
+                                    value={formData.gender}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.gender && (
-                            <span className="text-red-500 text-xs">{formErrors.gender}</span>
-                        )}
+                                    <span className="text-red-500 text-xs">{formErrors.gender}</span>
+                                )}
                             </div>
 
                         </div>
 
                         <div className="flex gap-4 mb-4">
-                            
+
 
                             <div>
                                 <input
@@ -162,12 +161,12 @@ const Prescription = () => {
                                     name="dob"
                                     placeholder="Dob"
                                     className="w-full p-2 border rounded"
-                                value={formData.dob}
-                                onChange={handleChange}
+                                    value={formData.dob}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.dob && (
-                            <span className="text-red-500 text-xs">{formErrors.dob}</span>
-                        )}
+                                    <span className="text-red-500 text-xs">{formErrors.dob}</span>
+                                )}
                             </div>
 
                             <div>
@@ -176,14 +175,14 @@ const Prescription = () => {
                                     name="disease"
                                     placeholder="Disease"
                                     className="w-full border rounded "
-                                value={formData.disease}
-                                onChange={handleChange}
+                                    value={formData.disease}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.disease && (
-                            <span className="text-red-500 text-xs">
-                                {formErrors.disease}
-                            </span>
-                        )}
+                                    <span className="text-red-500 text-xs">
+                                        {formErrors.disease}
+                                    </span>
+                                )}
                             </div>
 
                             <div>
@@ -192,12 +191,12 @@ const Prescription = () => {
                                     name="age"
                                     placeholder="Age"
                                     className="w-full p-2 border rounded"
-                                value={formData.age}
-                                onChange={handleChange}
+                                    value={formData.age}
+                                    onChange={handleChange}
                                 />
                                 {formErrors.age && (
-                            <span className="text-red-500 text-xs">{formErrors.age}</span>
-                        )}
+                                    <span className="text-red-500 text-xs">{formErrors.age}</span>
+                                )}
                             </div>
                         </div>
 
@@ -214,8 +213,8 @@ const Prescription = () => {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 rows="4"
                                 placeholder="Write each medicines line by line"
-                            value={formData.medicine}
-                            onChange={handleChange}
+                                value={formData.medicine}
+                                onChange={handleChange}
                             />
                             {formErrors.medicine && (<span className="text-red-500 text-xs">{formErrors.medicine}</span>)}
 
@@ -241,8 +240,8 @@ const Prescription = () => {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 rows="4"
                                 placeholder="Test"
-                            value={formData.test}
-                            onChange={handleChange}
+                                value={formData.test}
+                                onChange={handleChange}
                             />
                             {formErrors.test && (<span className="text-red-500 text-xs">{formErrors.test}</span>)}
                         </div>
