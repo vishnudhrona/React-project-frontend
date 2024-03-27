@@ -87,12 +87,14 @@ const Prescription = () => {
             })
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsLoading(false);
         }
     }
 
     return (
         <>
-            <div className="flex justify-center items-center py-10"
+<div className="flex justify-center items-center py-10"
                 style={{
                     backgroundImage: `url(${'https://c4.wallpaperflare.com/wallpaper/679/351/670/soft-gradient-solid-color-gradient-hd-wallpaper-preview.jpg'})`, // Set the background image
                     backgroundSize: 'cover',
@@ -254,7 +256,7 @@ const Prescription = () => {
                         </button>
                     </form>
                 </div>
-            </div>
+            </div>            
         </>
     )
 }

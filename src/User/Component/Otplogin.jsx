@@ -77,7 +77,7 @@ const Otplogin = () => {
             let otp = formData.otp
             instance.post('/otpverification',{otp, number}).then((data) => {
                 if(data.data.otpVerifiedStatus === 'approved') {
-                    localStorage.setItem('token', JSON.stringify(data.data.auth))
+                    localStorage.setItem('token', data.data.auth)
                     dispatch(patientId(data.data.patient._id))
                     dispatch(name(data.data.patient.patientfirstname))
                     navigate('/')

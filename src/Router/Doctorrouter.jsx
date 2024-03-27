@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Doctorloginpage from '../Doctorpages/Doctorloginpage'
 import Doctorsignuppage from '../Doctorpages/Doctorsignuppage'
@@ -14,6 +14,8 @@ import Remoteuservideocall from '../Doctor/component/Remoteuservideocall'
 import Paymentdetailspage from '../Doctorpages/Paymentdetailspage'
 import Prescriptionpage from '../Doctorpages/Prescriptionpage'
 
+const LazyBookingDetails = lazy(() => import('../Doctorpages/Bookingdetailspage'))
+
 
 const Doctorrouter = () => {
   return (
@@ -26,7 +28,7 @@ const Doctorrouter = () => {
         <Route path='/doctorforgotpasswordconfirm/:doctorEmail' element = {<Doctorforgotpasswordconfirmpage />} />
         <Route path='/scheduletime' element = {<Doctortimeschedulepage />} />
         <Route path='/doctorprofile' element = {<Doctorprofilepage />} />
-        <Route path='/patientbookingdetails' element = {<Bookingdetailspage />} />
+        <Route path='/patientbookingdetails' element = {<Suspense fallback={<div>Loading...</div>}><LazyBookingDetails /></Suspense>} />
         <Route path='/videocall' element = {<Videocall />} />
         <Route path='/remoteuservideo' element = {<Remoteuservideocall />} />
         <Route path='/paymentdetails' element = {<Paymentdetailspage />} />

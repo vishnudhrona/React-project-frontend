@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'https://react-project-backend-3.onrender.com',
+    baseURL: import.meta.env.VITE_API_URL,
     // timeout : 15000,
     headers:{
         "Content-Type": "application/json"
