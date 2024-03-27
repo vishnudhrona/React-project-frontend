@@ -87,8 +87,6 @@ const Prescription = () => {
             })
         } catch (err) {
             console.error(err);
-        } finally {
-            setIsLoading(false);
         }
     }
 
