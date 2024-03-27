@@ -1,0 +1,18 @@
+{
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        },
+
+        {
+            "source": "/doctors(.*)",
+            "destination": "/doctors"
+        },
+
+        {
+            "source" : "/admin(.*)",
+            "destination" : "/admin"
+        }
+    ]
+}
