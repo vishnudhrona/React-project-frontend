@@ -16,6 +16,8 @@ const Userprofile = () => {
     const [showCancelBookingConfirm, setShowCancelBookingConfirm] = useState(false)
     const [lastAppointment, setLastAppointment] = useState({})
 
+    console.log(bookingDetails, 'iiiiiiiiqqqqqqqqqq');
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -102,13 +104,19 @@ const Userprofile = () => {
                         <h1 className='font-bold mb-4'>Latest Appointment</h1>
                         <div className='bg-red-400 px-5 py-5 rounded-xl'>
                             <ul className="list-none text-white text-xs">
-                                {lastAppointment && (
+                                {lastAppointment ? (
                                     <>
                                         <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span>{lastAppointment.department}</li>
                                         <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>{lastAppointment.doctorfirstname} {lastAppointment.doctorlastname}</li>
                                         <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
                                         <li className="flex items-center"><span className="w-16 text-right mr-2">Date:</span>{lastAppointment.bookingDate}</li>
                                         <li className="flex items-center"><span className="w-16 text-right mr-2">Time:</span>{lastAppointment.slotTime}</li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div>
+                                            <h1>No appointmnets available</h1>
+                                        </div>
                                     </>
                                 )}
                             </ul>
@@ -118,43 +126,54 @@ const Userprofile = () => {
                 </div>
                 <div className='bg-slate-400 px-5 py-5 rounded-xl flex flex-col items-center gap-4'>
                     <h1 className='font-bold'>Your Appointments</h1>
-                    {bookingDetails && patientBookinDetails.map((booking, index) => (
-                        <div
-                            key={index}
-                            className={`bg-blue-500 px-5 py-5 rounded-xl flex flex-col items-center ${isTransitionEnabled ? 'animate-slideIn' : '' // Apply transition effect class conditionally
-                                }`}
-                        >   <ul className="list-none text-white text-xs">
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span> {booking.department}</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>{booking.doctorfirstname} {booking.doctorlastname}</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Date:</span> {booking.bookingDate}</li>
-                                <li className="flex items-center"><span className="w-16 text-right mr-2">Time:</span> {booking.slotTime}</li>
-                            </ul>
-                            <button
-                                className='bg-red-500 px-2 py-1 text-white text-sm rounded mt-3'
-                                onClick={() => deleteBooking(booking._id)}
-                            >
-                                Cancel Booking
-                            </button>
-                        </div>
-                    ))}
-                    <div className="flex justify-center mt-4">
-                        <button
-                            onClick={() => paginate(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className="mr-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
-                        >
-                            <TbPlayerTrackPrevFilled />
-                        </button>
+                    {bookingDetails && bookingDetails.length > 0 ? (
+                        <>
+                            {patientBookinDetails.map((booking, index) => (
+                                <div
+                                    key={index}
+                                    className={`bg-blue-500 px-5 py-5 rounded-xl flex flex-col items-center ${isTransitionEnabled ? 'animate-slideIn' : '' // Apply transition effect class conditionally
+                                        }`}
+                                >   <ul className="list-none text-white text-xs">
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Department:</span> {booking.department}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Doctor:</span>{booking.doctorfirstname} {booking.doctorlastname}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Type:</span> Consultation</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Date:</span> {booking.bookingDate}</li>
+                                        <li className="flex items-center"><span className="w-16 text-right mr-2">Time:</span> {booking.slotTime}</li>
+                                    </ul>
+                                    <button
+                                        className='bg-red-500 px-2 py-1 text-white text-sm rounded mt-3'
+                                        onClick={() => deleteBooking(booking._id)}
+                                    >
+                                        Cancel Booking
+                                    </button>
+                                </div>
+                            ))}
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={() => paginate(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="mr-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+                                >
+                                    <TbPlayerTrackPrevFilled />
+                                </button>
 
-                        <button
-                            onClick={() => paginate(currentPage + 1)}
-                            disabled={currentPage === Math.ceil(bookingDetails.length / doctorsPerPage)}
-                            className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
-                        >
-                            <TbPlayerTrackNextFilled />
-                        </button>
-                    </div>
+                                <button
+                                    onClick={() => paginate(currentPage + 1)}
+                                    disabled={currentPage === Math.ceil(bookingDetails.length / doctorsPerPage)}
+                                    className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+                                >
+                                    <TbPlayerTrackNextFilled />
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className='bg-blue-500 rounded text-white'>
+                                <h1 className='px-3 py-3'>No appointments available</h1>
+                            </div>
+                        </>
+                    )}
+
                 </div>
             </div>
         </div>

@@ -60,8 +60,12 @@ const Departmenttable = () => {
       })
 
     useEffect(() => {
+        const adminToken = localStorage.getItem('adminToken')
+        const headers = {
+            'Authorization': `Bearer ${adminToken}`
+          };
         try {
-            instance.get('/admin/fetchdepartment').then((response) => {
+            instance.get('/admin/fetchdepartment',{ headers }).then((response) => {
                 setDepartment(response.data.department || [])
             })
         } catch (err) {

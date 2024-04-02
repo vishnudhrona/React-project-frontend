@@ -24,20 +24,23 @@ const Doctortable = () => {
 
 
   useEffect(() => {
-    instance.get('/admin/doctormanagement').then((doctors) => {
+    const adminToken = localStorage.getItem('adminToken')
+        const headers = {
+            'Authorization': `Bearer ${adminToken}`
+          };
+    instance.get('/admin/doctormanagement',{ headers }).then((doctors) => {
       setDoctors(doctors.data.doctors)
     })
   }, [approvalStatus, filteredDoctorProfile])
 
   const indexOfLastDoctor = currentPage * doctorsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
-  const currentDoctors = doctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+  const currentDoctors = doctors? doctors.slice(indexOfFirstDoctor, indexOfLastDoctor) : []
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const approve = (doctorId) => {
     instance.get(`/admin/doctorapproval?doctorId=${doctorId}`).then((status) => {
-      console.log(status.data,'vvvvvvvvvvvvvvv');
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
@@ -59,9 +62,7 @@ const Doctortable = () => {
   }
 
   const Inerdict = (doctorId) => {
-    console.log(doctorId,'jjjjjjjjjjj');
     instance.get(`/admin/doctorinterdict?doctorId=${doctorId}`).then((status) => {
-      console.log(status.data,'vvvvvvvvvvvvvvv');
       setApprovalStatus((prevStatus) => ({
         ...prevStatus,
         [doctorId]: status.data.status
@@ -78,8 +79,6 @@ const Doctortable = () => {
           )
         );
       }
-
-      
     })
   }
 

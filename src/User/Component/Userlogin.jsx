@@ -5,6 +5,8 @@ import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { accessToken, patientId, name } from '../../Redux/Reducers/patientSlice';
 import { useDispatch } from 'react-redux';
+import { useGoogleLogin } from '@react-oauth/google';
+import { FcGoogle } from 'react-icons/fc';
 
 const Userlogin = () => {
 
@@ -22,6 +24,32 @@ const Userlogin = () => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
+
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+           try {
+            await instance.post('/usergoogleauthentication',{tokenResponse}).then((response) => {
+                console.log(response.data,'auth response data');
+                if(response.data.status) {
+                    localStorage.setItem('token',response.data.token)
+                    dispatch(patientId(response.data.existingUser._id))
+                    dispatch(name(response.data.existingUser.patientfirstname))
+                    navigate('/')
+                } else {
+                    const body = {
+                        email : response.data.response.email,
+                        patientfirstname : response.data.response.given_name,
+                        lastName : response.data.response.family_name
+                    }
+                    const authDetails = JSON.stringify(body)
+                    navigate(`/googleauthform?authcredential=${authDetails}`)
+                }
+            })
+           } catch(err) {
+            console.error(err);
+           }
+        }
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -157,14 +185,28 @@ const Userlogin = () => {
                                     >
                                         Login
                                     </button>
+                                </form>
+                                <div className="flex justify-center items-center mt-2">
                                     <Link
                                         to={"/signup"}
                                         type="button"
-                                        className="text-xs font-semibold hover:text-slate-500 w-3/4 mt-5 "
+                                        className="text-xs font-semibold hover:text-slate-500 mt-2"
                                     >
                                         Create Account
                                     </Link>
-                                </form>
+                                </div>
+                                <div className='flex justify-center mt-3'>
+                                <button
+                                onClick={() => login()}
+                                className="bg-slate-200 text-xs p-2 rounded hover:bg-slate-400"
+                                >
+                                <div className='flex justify-between items-center gap-2'>
+                                <span><FcGoogle /></span>
+                                <span>Sign in with Google</span>
+                                </div>
+                            </button>
+
+                                </div>
                             </div>
                         </div>
                     </div>

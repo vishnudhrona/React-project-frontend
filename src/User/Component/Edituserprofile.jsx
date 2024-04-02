@@ -24,7 +24,20 @@ const Edituserprofile = () => {
 
      useEffect(() => {
         instance.get(`/fetchuserDetails?patientId=${patientId}`).then((response) => {
-            setFormData(response.data.response)
+            const dateString = response.data.response.dateOfBirth
+            const parts = dateString.split('/');
+            const formattedDate = `${parts[1]}/${parts[0]}/${parts[2]}`;
+
+            const body = {
+                patientfirstname : response.data.response.patientfirstname,
+                lastName : response.data.response.lastName,
+                dateOfBirth : new Date(formattedDate),
+                gender : response.data.response.gender,
+                email : response.data.response.email,
+                number : response.data.response.number
+            }
+            setFormData(body)
+            setDob(formattedDate)
         })
      }, [])
 

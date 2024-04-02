@@ -13,7 +13,11 @@ const Paymenttable = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        instance.get('/admin/paymentmanagement').then((response) => {
+        const adminToken = localStorage.getItem('adminToken')
+        const headers = {
+            'Authorization': `Bearer ${adminToken}`
+          };
+        instance.get('/admin/paymentmanagement',{ headers }).then((response) => {
             setPaymentDetails(response.data.response)
         })
     }, [paymentResponse])

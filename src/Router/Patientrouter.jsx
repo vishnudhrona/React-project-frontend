@@ -12,7 +12,7 @@ import Paymentpage from '../Userpages/Paymentpage'
 import Paymentsuccess from '../User/Component/Paymentsuccess'
 import Userprofilepage from '../Userpages/Userprofilepage'
 import Edituserprofilepage from '../Userpages/Edituserprofilepage'
-// import Prescriptionpage from '../Userpages/Prescriptionpage'
+import Googleauthformpage from '../Userpages/Googleauthformpage';
 
 const LazyPrescriptionpage = lazy(() => import('../Userpages/Prescriptionpage'));
 
@@ -32,6 +32,7 @@ const Patientrouter = () => {
       <Route path='/paymentsuccess' element={<Paymentsuccess />} />
       <Route path='/userprofile' element={<Userprofilepage />} />
       <Route path='/edituserprofile/:patientId' element={<Edituserprofilepage />} />
+      <Route path='/googleauthform' element = {<Googleauthformpage />} />
       <Route
         path='/prescriptionview'
         element={

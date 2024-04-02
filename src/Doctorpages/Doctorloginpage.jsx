@@ -6,10 +6,10 @@ import Doctorfooter from '../Doctor/component/Doctorfooter'
 const Doctorloginpage = () => {
   return (
     <div>
-      <Doctornav />
-      <div className='pt-16'>
+      {/* <Doctornav /> */}
+      {/* <div className='pt-16'> */}
       <Doctorlogin />
-      </div>
+      {/* </div> */}
       <Doctorfooter />
     </div>
   )

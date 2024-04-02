@@ -14,17 +14,21 @@ const Usertable = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        instance.get('/admin/usermanagement').then((users) => {
+        const adminToken = localStorage.getItem('adminToken')
+        const headers = {
+            'Authorization': `Bearer ${adminToken}`
+          };
+        instance.get('/admin/usermanagement',{ headers }).then((users) => {
             setUsers(users.data.users)
         })
     }, [blockedStatus])
 
     useEffect(() => {
         let accessToken = localStorage.getItem('adminToken')
-        if(!accessToken) {
-          navigate('/admin/adminlogin')
+        if (!accessToken) {
+            navigate('/admin/adminlogin')
         }
-      }, [])
+    }, [])
 
     const indexOfLastDoctor = currentPage * doctorsPerPage;
     const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
@@ -39,16 +43,16 @@ const Usertable = () => {
                 [userId]: status.data.status
             }))
 
-            setUsers(prevUser => prevUser.map(user => 
-                user._id ===userId ? { ...user, signupStatus : status.data.status} : user
-                ))
+            setUsers(prevUser => prevUser.map(user =>
+                user._id === userId ? { ...user, signupStatus: status.data.status } : user
+            ))
 
-                if(searchInput) {
-                    setFilteredDoctorProfile(prevFilteredUser => 
-                        prevFilteredUser.map(user => 
-                            user._id ===  userId ? {...user, signupStatus : status.data.status} : user
-                            ))
-                }
+            if (searchInput) {
+                setFilteredDoctorProfile(prevFilteredUser =>
+                    prevFilteredUser.map(user =>
+                        user._id === userId ? { ...user, signupStatus: status.data.status } : user
+                    ))
+            }
         })
     }
 
@@ -59,16 +63,16 @@ const Usertable = () => {
                 [userId]: status.data.status
             }))
 
-            setUsers(prevUser => prevUser.map(user => 
-                user._id ===userId ? { ...user, signupStatus : status.data.status} : user
-                ))
+            setUsers(prevUser => prevUser.map(user =>
+                user._id === userId ? { ...user, signupStatus: status.data.status } : user
+            ))
 
-                if(searchInput) {
-                    setFilteredDoctorProfile(prevFilteredUser => 
-                        prevFilteredUser.map(user => 
-                            user._id ===  userId ? {...user, signupStatus : status.data.status} : user
-                            ))
-                }
+            if (searchInput) {
+                setFilteredDoctorProfile(prevFilteredUser =>
+                    prevFilteredUser.map(user =>
+                        user._id === userId ? { ...user, signupStatus: status.data.status } : user
+                    ))
+            }
         })
     }
 

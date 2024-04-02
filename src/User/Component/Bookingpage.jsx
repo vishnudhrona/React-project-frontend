@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import instance from '../../Axios/Axios';
 import Slots from './Slots';
 import { timeSlot } from '../../Redux/Reducers/patientSlice';
 import { closingSlot } from '../../Redux/Reducers/patientSlice';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb';
 import { GrNext, GrPrevious } from "react-icons/gr";
 
 
@@ -138,56 +137,61 @@ const Bookingpage = () => {
                 <li className="text-blue-800">Fee : INR {doctor.fee}</li>
               </ul>
             )}
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="rounded hover:text-blue-600"
-            >
-              <GrPrevious />                </button>
 
-            <div className="grid grid-cols-3 gap-5 pl-5 h-60">
+            {scheduledTime && scheduledTime.length > 0 ? (
+              <>
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="rounded hover:text-blue-600"
+                >
+                  <GrPrevious />
+                </button>
 
-              {scheduledTime &&
-                DoctorTimeSchedule.map((timeDetails, index) => (
-                  <>
-                    <button
-                      onClick={() => slotShowing(timeDetails._id)}
-                    >
-                      <div className="w-28" key={index}>
-                        <div className="w-auto bg-slate-300 border border-slate-400 h-4 mb-1">
-                          <span className="grid justify-center text-xs">
-                            {timeDetails.dateOfWeek}
-                          </span>
+                <div className="grid grid-cols-3 gap-5 pl-5 h-60">
+
+                  {DoctorTimeSchedule.map((timeDetails, index) => (
+                    <>
+                      <button
+                        onClick={() => slotShowing(timeDetails._id)}
+                      >
+                        <div className="w-28" key={index}>
+                          <div className="w-auto bg-slate-300 border border-slate-400 h-4 mb-1">
+                            <span className="grid justify-center text-xs">
+                              {timeDetails.dateOfWeek}
+                            </span>
+                          </div>
+                          <div className="bg-slate-300 border border-slate-400">
+                            <span className="flex justify-center text-xs">
+                              {timeDetails.timeFromObject}-{timeDetails.timeToObject}
+                            </span>
+                            <span className="flex justify-center text-xs">
+                              Slots : {timeDetails.slots}
+                            </span>
+                          </div>
+                          <div className="bg-blue-950">
+                            <span className="flex justify-center text-xs text-white">
+                              {timeDetails.dateObject}
+                            </span>
+                          </div>
                         </div>
-                        <div className="bg-slate-300 border border-slate-400">
-                          <span className="flex justify-center text-xs">
-                            {timeDetails.timeFromObject}-{timeDetails.timeToObject}
-                          </span>
-                          <span className="flex justify-center text-xs">
-                            Slots : {timeDetails.slots}
-                          </span>
-                        </div>
-                        <div className="bg-blue-950">
-                          <span className="flex justify-center text-xs text-white">
-                            {timeDetails.dateObject}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  </>
-                ))}
-            </div>
-
-
-
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === Math.ceil(scheduledTime ? scheduledTime.length / doctorsPerPage : [])}
-              className="rounded hover:text-blue-600"
-            >
-              <GrNext />
-            </button>
-
+                      </button>
+                    </>
+                  ))}
+                </div>
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === Math.ceil(scheduledTime ? scheduledTime.length / doctorsPerPage : [])}
+                  className="rounded hover:text-blue-600"
+                >
+                  <GrNext />
+                </button>
+              </>
+            ) : (
+              <div className='flex justify-center items-center px-24 py-20'>
+                <h1 className='whitespace-nowrap text-blue-800 font-semibold'>Slots not available on this date</h1>
+              </div>
+            )}
           </div>
         </div>
       </div>
