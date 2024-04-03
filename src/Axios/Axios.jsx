@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'https://react-project-backend-1.onrender.com',
+    baseURL: 'https://react-project-backend-6jnf.onrender.com',
     // timeout : 15000,
     headers:{
         "Content-Type": "application/json"
