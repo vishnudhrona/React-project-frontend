@@ -5,6 +5,7 @@ import Doctormanagement from '../Adminpages/Doctormanagement'
 import Departmentmanagement from '../Adminpages/Departmentmanagement'
 import Usermanagement from '../Adminpages/Usermanagement'
 import Paymentmanagement from '../Adminpages/Paymentmanagement'
+import Adminhome from '../admin/component/Adminhome'
 
 
 const Adminrouter = () => {
@@ -15,7 +16,8 @@ const Adminrouter = () => {
         <Route path='/doctormanagement' element = {<Doctormanagement />} />
         <Route path='/departmentmanagement' element = {<Departmentmanagement />} />
         <Route path='/usermanagement' element = {<Usermanagement />} />
-        <Route path='paymentmanagement' element = {<Paymentmanagement />} />
+        <Route path='/paymentmanagement' element = {<Paymentmanagement />} />
+        <Route path='/adminhome' element = {<Adminhome />} />
     </Routes>
     </>
   )

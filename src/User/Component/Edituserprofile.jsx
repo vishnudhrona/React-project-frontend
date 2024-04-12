@@ -10,6 +10,8 @@ const Edituserprofile = () => {
     const [formErrors, setFormErrors] = useState({});
     const [dob, setDob] = useState(null)
 
+    console.log(formData,'22222222222222111111');
+
     const { patientId } = useParams()
     const navigate = useNavigate()
 
@@ -24,6 +26,7 @@ const Edituserprofile = () => {
 
      useEffect(() => {
         instance.get(`/fetchuserDetails?patientId=${patientId}`).then((response) => {
+            console.log(response,'edit profile responseeee');
             const dateString = response.data.response.dateOfBirth
             const parts = dateString.split('/');
             const formattedDate = `${parts[1]}/${parts[0]}/${parts[2]}`;

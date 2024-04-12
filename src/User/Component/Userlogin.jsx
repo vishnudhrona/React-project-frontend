@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import instance from '../../Axios/Axios';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +18,9 @@ const Userlogin = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    const location = useLocation()
+    
+    const videoCallPeerId = localStorage.getItem('peerId')
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,11 +32,16 @@ const Userlogin = () => {
            try {
             await instance.post('/usergoogleauthentication',{tokenResponse}).then((response) => {
                 console.log(response.data,'auth response data');
-                if(response.data.status) {
+                if(response.data.status && !videoCallPeerId) {
                     localStorage.setItem('token',response.data.token)
                     dispatch(patientId(response.data.existingUser._id))
                     dispatch(name(response.data.existingUser.patientfirstname))
                     navigate('/')
+                } else if(response.data.status && videoCallPeerId) {
+                    localStorage.setItem('token',response.data.token)
+                    dispatch(patientId(response.data.existingUser._id))
+                    dispatch(name(response.data.existingUser.patientfirstname))
+                    navigate(`/doctors/remoteuservideo?peerId=${videoCallPeerId}`)
                 } else {
                     const body = {
                         email : response.data.response.email,
@@ -74,12 +81,18 @@ const Userlogin = () => {
             }
 
             instance.post("/userlogin", { formData }).then((response) => {
-                if (response.data.status === "unblock") {
+                if (response.data.status === "unblock" && !videoCallPeerId) {
                     localStorage.setItem("token", response.data.auth);
                     dispatch(accessToken(response.data.auth));
                     dispatch(patientId(response.data.user._id));
                     dispatch(name(response.data.user.name));
                     navigate("/");
+                } else if(response.data.status === "unblock" && videoCallPeerId) {
+                    localStorage.setItem("token", response.data.auth);
+                    dispatch(accessToken(response.data.auth));
+                    dispatch(patientId(response.data.user._id));
+                    dispatch(name(response.data.user.name));
+                    navigate(`/doctors/remoteuservideo?peerId=${videoCallPeerId}`)
                 } else if (response.data.status === 'nouser') {
                     toast.error(response.data.message, {
                         position: "top-right",

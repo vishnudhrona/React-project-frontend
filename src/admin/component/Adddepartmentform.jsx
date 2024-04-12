@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import instance from '../../Axios/Axios';
 import { useDispatch } from 'react-redux';
 import { deparmentFormClose } from '../../Redux/Reducers/adminSlice';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Adddepartmentform = () => {
     const [formData, setFormData] = useState({
@@ -37,6 +39,18 @@ const Adddepartmentform = () => {
             instance.post('/admin/adddepartment',{formData}).then((response) => {
                 if(response.data.response.status) {
                     dispatch(deparmentFormClose(false))
+                } else {
+                    toast.error("Department Alreadt Exists !", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Zoom,
+                    });
                 }
             })
         } catch (err) {
@@ -46,6 +60,19 @@ const Adddepartmentform = () => {
 
     return (
         <>
+         <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                transition={Zoom}
+            />
             <div className="doctor-schedule-time-container timeschedule-overlay py-5 px-5">
                 <form
                     onSubmit={handleSubmit}

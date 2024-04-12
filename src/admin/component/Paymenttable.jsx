@@ -154,12 +154,19 @@ const Paymenttable = () => {
                                         {time.adminPaymentStatus}
                                     </td>
                                     <td className="px-6 py-4">
+                                        {time.adminPaymentStatus === 'pending' ? (
+
                                         <button
                                             className="font-medium text-green-500 dark:text-green-600 hover:underline"
                                             onClick={() => payment(time._id, time.doctorDetails.fee)}
                                         >
                                             Pay
                                         </button>
+                                        ) : (
+                                            <div>
+                                                <h1 className='font-bold text-green-400'>Completed</h1>
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             </>

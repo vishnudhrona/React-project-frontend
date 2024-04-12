@@ -68,6 +68,8 @@ const Doctortable = () => {
         [doctorId]: status.data.status
       }))
 
+      localStorage.removeItem('doctorToken')
+
       setDoctors(prevDoctors => prevDoctors.map(doctor => 
         doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
       ));
@@ -78,6 +80,7 @@ const Doctortable = () => {
             doctor._id === doctorId ? { ...doctor, signupStatus: status.data.status } : doctor
           )
         );
+        localStorage.removeItem('doctorToken')
       }
     })
   }

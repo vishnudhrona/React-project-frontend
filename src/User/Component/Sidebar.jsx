@@ -19,15 +19,31 @@ const Sidebar = () => {
         }
     }, [])
 
+    // useEffect(() => {
+    //     instance.get(`/sortdoctor?search=${selectedOption}`).then((sortedDoc) => {
+    //       dispatch(setSortedDoc(sortedDoc.data.sortedDoc))
+    //     })
+    //   },[selectedOption])
     useEffect(() => {
-        instance.get(`/sortdoctor?search=${selectedOption}`).then((sortedDoc) => {
+      instance.get(`/sortdoctor?search=${selectedOption.join(',')}`).then((sortedDoc) => {
           dispatch(setSortedDoc(sortedDoc.data.sortedDoc))
-        })
-      },[selectedOption])
+      })
+  }, [selectedOption])
 
+    // const handleOptionChange = (e) => {
+    //     setSelectedOption(e.target.value)
+    // }
     const handleOptionChange = (e) => {
-        setSelectedOption(e.target.value)
-    }
+      const value = e.target.value;
+      console.log(value,'4444444444444111111122222');
+      setSelectedOption(prevOptions => {
+          if (prevOptions.includes(value)) {
+              return prevOptions.filter(option => option !== value);
+          } else {
+              return [...prevOptions, value];
+          }
+      });
+  }
 
     const unselectOption = () => {
         setSelectedOption([]); 
@@ -53,9 +69,10 @@ const Sidebar = () => {
           <div key={index}>
             <label className="gap-4 text-xs font-mono">
               <input
-                type="radio"
+                type="checkbox"
                 value={dep.department}
-                checked={selectedOption === dep.department}
+                // checked={selectedOption === dep.department}
+                checked={selectedOption.includes(dep.department)}
                 onChange={handleOptionChange}
                 key={index}
                 className="h-3 w-3 appearance-none checked:bg-slate-600 checked:border-transparent border border-gray-400 rounded-none mr-2"

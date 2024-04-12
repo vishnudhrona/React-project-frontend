@@ -5,9 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CgCalendarDates } from "react-icons/cg";
 import instance from "../../Axios/Axios";
 import { useDispatch, useSelector } from "react-redux";
-import { scheduleClose } from "../../Redux/Reducers/doctorSlice";
-import { useNavigate } from "react-router-dom";
-
+import { scheduleClose, scheduleError } from "../../Redux/Reducers/doctorSlice";
 
 const Doctorscheduletime = () => {
     const [date, setDate] = useState(null);
@@ -15,6 +13,8 @@ const Doctorscheduletime = () => {
     const [timeto, setTimeto] = useState(null)
     const [slots, setSlots] = useState('')
     const [formErrors, setFormErrors] = useState({});
+
+    
 
     const dispatch = useDispatch()
 
@@ -52,6 +52,10 @@ const Doctorscheduletime = () => {
         setSlots(slot)
     }
 
+    console.log(timeto,'tttttttttttttttttttttrrrr');
+    console.log(timefrom,'qqqqqqqqqqqqqqqwwwwwwwwwwww');
+    let timeFromValue = new Date(timefrom)
+    let timeToValue = new Date(timeto)
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
@@ -67,6 +71,8 @@ const Doctorscheduletime = () => {
 
             if(!timeto) {
                 validationErrors.timeto = "Time is required"
+            } else if(timeToValue.getTime() < timeFromValue.getTime()) {
+                validationErrors.timeto = "Add greater value of Time from field"
             }
 
             if(!slots) {
@@ -91,7 +97,12 @@ const Doctorscheduletime = () => {
                     'Content-Type' : 'application/json'
                   },
             }).then((response) => {
-                dispatch(scheduleClose(false))
+                if(response.data.status) {
+                    dispatch(scheduleClose(false))
+                    dispatch(scheduleError(response.data.message))
+                } else {
+                    dispatch(scheduleClose(false))
+                }
             })
 
         } catch (err) {

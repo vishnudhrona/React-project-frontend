@@ -12,6 +12,7 @@ import Videocall from '../Doctor/component/Videocall'
 import Remoteuservideocall from '../Doctor/component/Remoteuservideocall'
 import Paymentdetailspage from '../Doctorpages/Paymentdetailspage'
 import Prescriptionpage from '../Doctorpages/Prescriptionpage'
+import Editdoctorprofilepage from '../Doctorpages/Editdoctorprofilepage'
 
 const LazyBookingDetails = lazy(() => import('../Doctorpages/Bookingdetailspage'))
 
@@ -32,6 +33,7 @@ const Doctorrouter = () => {
         <Route path='/remoteuservideo' element = {<Remoteuservideocall />} />
         <Route path='/paymentdetails' element = {<Paymentdetailspage />} />
         <Route path='/prescription' element = {<Prescriptionpage />} />
+        <Route path='/editdoctorprofile' element = {<Editdoctorprofilepage />} />
     </Routes>
   )
 }

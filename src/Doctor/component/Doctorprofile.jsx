@@ -10,6 +10,8 @@ const Doctorprofile = () => {
 
     const docId = useSelector((state) => state.doctorData.doctorId)
 
+    console.log(docId,'999999999999999999');
+
     useEffect(() => {
         const doctorToken = localStorage.getItem('doctorToken')
         const headers = {
@@ -65,7 +67,7 @@ const Doctorprofile = () => {
                             )}
                         </div>
                     </div>
-                    <div className=" bg-blue-100 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 mt-5 h-72">
+                    <div className=" bg-blue-100 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 mt-5 h-80">
                         <div className="px-5 ">
                             <h5 className="text-2xl font-bold tracking-tight dark:text-white text-slate-700 mt-8 underline">
                                 Personal Info
@@ -84,7 +86,9 @@ const Doctorprofile = () => {
                             )}
                         </div>
                         <div className='py-5 px-20'>
-                            <Link className='bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded'>
+                            <Link 
+                            to={'/doctors/editdoctorprofile'}
+                            className='bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded'>
                                 Edit profile
                             </Link>
                         </div>

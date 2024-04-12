@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { doctorId : null, scheduleClose : null, scheduleId : null, scheduleDeleteConfirm : null }
+const initialState = { doctorId : null, scheduleClose : null, scheduleId : null, scheduleDeleteConfirm : null, scheduleError : null }
 
 const doctorSlice = createSlice({
     name : 'doctorId',
@@ -20,9 +20,13 @@ const doctorSlice = createSlice({
 
         scheduleDeleteConfirm(state, action){
             state.scheduleDeleteConfirm = action.payload
+        },
+
+        scheduleError(state, action){
+            state.scheduleError = action.payload
         }
     }
 })
 
-export const { doctorId, scheduleClose, scheduleId, scheduleDeleteConfirm } = doctorSlice.actions
+export const { doctorId, scheduleClose, scheduleId, scheduleDeleteConfirm, scheduleError } = doctorSlice.actions
 export default doctorSlice.reducer

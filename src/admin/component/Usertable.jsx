@@ -42,6 +42,7 @@ const Usertable = () => {
                 ...prevStatus,
                 [userId]: status.data.status
             }))
+            localStorage.removeItem('token')
 
             setUsers(prevUser => prevUser.map(user =>
                 user._id === userId ? { ...user, signupStatus: status.data.status } : user
@@ -52,6 +53,7 @@ const Usertable = () => {
                     prevFilteredUser.map(user =>
                         user._id === userId ? { ...user, signupStatus: status.data.status } : user
                     ))
+                    localStorage.removeItem('token')
             }
         })
     }

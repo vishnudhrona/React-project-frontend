@@ -6,8 +6,10 @@ import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from 'react-icons/tb
 import { scheduleClose } from '../../Redux/Reducers/doctorSlice';
 import Deletescheduleconfirm from './Deletescheduleconfirm';
 import { scheduleId } from '../../Redux/Reducers/doctorSlice';
-import { scheduleDeleteConfirm } from '../../Redux/Reducers/doctorSlice';
+import { scheduleDeleteConfirm, scheduleError } from '../../Redux/Reducers/doctorSlice';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Doctortimescheduletable = () => {
     const [showScheduleForm, setScheduleForm] = useState(false)
@@ -18,6 +20,25 @@ const Doctortimescheduletable = () => {
     
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const scheduledTimeError = useSelector((state) => state.doctorData.scheduleError)
+    
+    useEffect(() => {
+        if(scheduledTimeError) {
+            toast.error(scheduledTimeError, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Zoom,
+            });
+        }
+        dispatch(scheduleError(null))
+    }, [scheduledTimeError]) 
 
     scheduledTime.sort((a, b) => {
         const dateA = new Date(a.dateObject.split('/').reverse().join('/'));
@@ -69,6 +90,19 @@ const Doctortimescheduletable = () => {
 
     return (
         <>
+        <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                transition={Zoom}
+            />
         <div className='relative'>
             <button
                 className="border bg-buttonColor text-white px-5 py-1 rounded mt-5 mb-5"
