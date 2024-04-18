@@ -33,6 +33,7 @@ const Patientrouter = () => {
       <Route path='/userprofile' element={<Userprofilepage />} />
       <Route path='/edituserprofile/:patientId' element={<Edituserprofilepage />} />
       <Route path='/googleauthform' element = {<Googleauthformpage />} />
+      <Route path='*' element = {<Page404 />} />
       <Route
         path='/prescriptionview'
         element={

@@ -26,7 +26,7 @@ const Doctorlogin = () => {
         if (!accessToken) {
             navigate('/doctors/doctorlogin')
         } else {
-            navigate('/doctors/patientbookingdetails')
+            navigate('/doctors/doctorhome')
         }
     }, [navigate])
 
@@ -38,7 +38,7 @@ const Doctorlogin = () => {
                     if (response.data.user.signupStatus === "Approved") {
                         localStorage.setItem('doctorToken', response.data.auth)
                         dispatch(doctorId(response.data.user._id))
-                        navigate('/doctors/patientbookingdetails')
+                        navigate('/doctors/doctorhome')
                     } else {
                         toast.error(response.data.message, {
                             position: "top-right",

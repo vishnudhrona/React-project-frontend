@@ -52,7 +52,7 @@ const Adminlogin = () => {
             instance.post('/admin/adminlogin', { formData }).then((response) => {
                 if(response.data.response.status) {
                     localStorage.setItem('adminToken', response.data.auth)
-                    navigate('/admin/doctormanagement')
+                    navigate('/admin/adminhome')
                 } else {
                     toast.error("Invalid credentials", {
                         position: "top-right",

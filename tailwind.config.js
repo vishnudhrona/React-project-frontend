@@ -32,7 +32,9 @@ export default {
         slotButton: "#00b48d",
         loginBackgroundColor: "#148e9c",
         hoverLogin: "#139bab",
-        loginImage: "#d6fbff"
+        loginImage: "#d6fbff",
+        adminHomeBarChartUser: "#cd8ced",
+        adminHomeBarChartDoctor: "#5f62de"
       },
     },
   },

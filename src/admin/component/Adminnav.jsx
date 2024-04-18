@@ -34,7 +34,7 @@ const Adminnav = () => {
     <div className='absolute sticky top-0 z-50'>
     <nav className="bg-customColor border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
-            <a href="/" className="flex items-center">
+            <a href="/admin/adminhome" className="flex items-center">
                 <img
                     src="https://www.asterhospitals.in/themes/custom/aster/aster-logo.svg"
                     className="h-8 pl-16"

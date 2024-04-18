@@ -13,6 +13,8 @@ import Remoteuservideocall from '../Doctor/component/Remoteuservideocall'
 import Paymentdetailspage from '../Doctorpages/Paymentdetailspage'
 import Prescriptionpage from '../Doctorpages/Prescriptionpage'
 import Editdoctorprofilepage from '../Doctorpages/Editdoctorprofilepage'
+import Doctorhomepage from '../Doctorpages/Doctorhomepage'
+import Page404 from '../Page404'
 
 const LazyBookingDetails = lazy(() => import('../Doctorpages/Bookingdetailspage'))
 
@@ -34,6 +36,8 @@ const Doctorrouter = () => {
         <Route path='/paymentdetails' element = {<Paymentdetailspage />} />
         <Route path='/prescription' element = {<Prescriptionpage />} />
         <Route path='/editdoctorprofile' element = {<Editdoctorprofilepage />} />
+        <Route path='/doctorhome' element = {<Doctorhomepage />} />
+        <Route path='*' element = {<Page404 />} />
     </Routes>
   )
 }
