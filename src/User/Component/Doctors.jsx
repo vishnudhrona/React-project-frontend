@@ -7,8 +7,11 @@ const Doctors = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [doctorsPerPage] = useState(4);
 
+  // console.log(doctorImage,'uuuuuuuuuuuuuuuuuuuuuuu');
+
   useEffect(() => {
     instance.get(`/landingpagefetchDoctors`).then((doctors) => {
+      console.log(doctors.data.doctorsDetails.image,'uuuuuuuuuuuuuuuuuuuuuuu');
       setDoctorDetails(doctors.data.doctorsDetails.details)
       setDoctorImage(doctors.data.doctorsDetails.image)
     })
@@ -26,6 +29,12 @@ const Doctors = () => {
 
   return (
     <>
+    {doctorImage.map((img, index) => (
+      <>
+      <h1>{img}</h1>
+    <img key={index} src={img} alt="" />
+    </>
+    ))}
     <div className="bg-blue-200 p-5">
       <div className="container-fluid mx-auto p-10">
       <h1 className="text-4xl font-bold mb-4 text-blue-900">

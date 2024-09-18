@@ -34,7 +34,8 @@ export default {
         hoverLogin: "#139bab",
         loginImage: "#d6fbff",
         adminHomeBarChartUser: "#cd8ced",
-        adminHomeBarChartDoctor: "#5f62de"
+        adminHomeBarChartDoctor: "#5f62de",
+        ftc: "rgba(252, 251, 251, 0.2)"
       },
     },
   },

@@ -10,7 +10,7 @@ const Edituserprofile = () => {
     const [formErrors, setFormErrors] = useState({});
     const [dob, setDob] = useState(null)
 
-    console.log(formData,'22222222222222111111');
+    console.log(dob,'rrrrrrrrrrrr');
 
     const { patientId } = useParams()
     const navigate = useNavigate()
@@ -174,20 +174,20 @@ const Edituserprofile = () => {
                     </div>
                 </div>
                 <div className="flex gap-4 mb-4">
-                <div>
-                                <DatePicker
-                                    className="p-2 border rounded datepicker-input"
-                                    selected={dob}
-                                    name="date"
-                                    onChange={handleDate}
-                                    value={dob}
-                                    dateFormat="dd/MM/yyyy"
-                                    placeholderText='Date of Birth'
-                                />
-                                {formErrors.dob && (
-                                    <span className="text-red-500 text-xs">{formErrors.dob}</span>
-                                )}
-                            </div>
+                          <div>
+                              <DatePicker
+                                  className="p-2 border rounded datepicker-input"
+                                //   selected={dob}
+                                  name="date"
+                                  onChange={handleDate}
+                                //   value={dob}
+                                  dateFormat="dd/MM/yyyy"
+                                  placeholderText='Date of Birth'
+                              />
+                              {formErrors.dob && (
+                                  <span className="text-red-500 text-xs">{formErrors.dob}</span>
+                              )}
+                          </div>
                     <div className='mb-5'>
                         <input
                             type="text"

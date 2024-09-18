@@ -19,20 +19,14 @@ const Sidebar = () => {
         }
     }, [])
 
-    // useEffect(() => {
-    //     instance.get(`/sortdoctor?search=${selectedOption}`).then((sortedDoc) => {
-    //       dispatch(setSortedDoc(sortedDoc.data.sortedDoc))
-    //     })
-    //   },[selectedOption])
+    
     useEffect(() => {
       instance.get(`/sortdoctor?search=${selectedOption.join(',')}`).then((sortedDoc) => {
           dispatch(setSortedDoc(sortedDoc.data.sortedDoc))
       })
   }, [selectedOption])
 
-    // const handleOptionChange = (e) => {
-    //     setSelectedOption(e.target.value)
-    // }
+    
     const handleOptionChange = (e) => {
       const value = e.target.value;
       console.log(value,'4444444444444111111122222');

@@ -71,10 +71,10 @@ const Usersignup = () => {
                 validationErrors.number = "Number is required";
             }
 
-            if (Object.keys(validationErrors).length > 0) {
-                setFormErrors(validationErrors);
-                return;
-            }
+                if (Object.keys(validationErrors).length > 0) {
+                    setFormErrors(validationErrors);
+                    return;
+                }
 
             const response = await instance.post("/signup", { formData, dob });
             if (response.data.status) {
@@ -140,14 +140,14 @@ const Usersignup = () => {
                             </div>
 
                             <div>
-                                <input
+                                {/* <input
                                     type="text"
                                     name="lastName"
                                     placeholder="Last Name"
                                     className="w-full p-2 border rounded"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                />
+                                /> */}
                                 {formErrors.lastName && (
                                     <span className="text-red-500 text-xs">{formErrors.lastName}</span>
                                 )}
