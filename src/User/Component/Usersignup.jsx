@@ -140,14 +140,7 @@ const Usersignup = () => {
                             </div>
 
                             <div>
-                                {/* <input
-                                    type="text"
-                                    name="lastName"
-                                    placeholder="Last Name"
-                                    className="w-full p-2 border rounded"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                /> */}
+                               
                                 {formErrors.lastName && (
                                     <span className="text-red-500 text-xs">{formErrors.lastName}</span>
                                 )}
